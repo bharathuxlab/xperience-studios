@@ -1,0 +1,853 @@
+<title>Xperience Studios</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --void:#000000;
+  --surface:#0a0a0c;
+  --surface-2:#111114;
+  --border:rgba(255,255,255,0.09);
+  --border-strong:rgba(255,255,255,0.18);
+  --text:#f5f5f7;
+  --text-dim:#8a8a92;
+  --amber:#f5b841;
+  --teal:#4fd8cf;
+  --bg:var(--void);
+  --accent:var(--amber);
+  --accent-2:var(--teal);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Manrope',system-ui,-apple-system,sans-serif;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:var(--void)}
+h1,h2,h3,.disp{
+  font-family:'Sora',system-ui,sans-serif;
+  text-wrap:balance;
+  letter-spacing:-0.02em;
+  font-weight:800;
+}
+.mono{font-family:'IBM Plex Mono',monospace}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+@media(max-width:720px){.wrap{padding:0 20px}}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important}
+}
+
+main{position:relative}
+section{padding:130px 0}
+@media(max-width:720px){section{padding:80px 0}}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 32px;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+@media(max-width:720px){.nav{padding:16px 20px}}
+.logo{display:flex;align-items:center;gap:9px;font-size:16.5px;font-weight:800;font-family:'Sora',sans-serif;letter-spacing:-0.01em}
+.logo .mark{width:22px;height:22px;flex:none}
+.logo .mark svg{width:100%;height:100%;display:block}
+.logo .mark .bar{transform-origin:center;animation:xspin 9s linear infinite}
+@keyframes xspin{to{transform:rotate(360deg)}}
+.navlinks{display:flex;gap:6px;align-items:center}
+.navlinks a{font-size:14px;color:var(--text-dim);transition:all .2s ease;padding:9px 14px;border-radius:8px}
+.navlinks a:hover{color:var(--text);background:rgba(255,255,255,0.06)}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;background:var(--text);color:var(--void);font-weight:700;
+  padding:10px 20px;border-radius:100px;border:none;cursor:pointer;font-size:14px;transition:all .25s cubic-bezier(.16,1,.3,1);
+}
+.pill:hover{transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(255,255,255,0.35)}
+.pill-outline{
+  display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text);font-weight:700;
+  padding:10px 20px;border-radius:100px;border:1px solid var(--border-strong);cursor:pointer;font-size:14px;transition:all .25s ease;
+}
+.pill-outline:hover{border-color:var(--text);background:rgba(255,255,255,0.05)}
+.navlinks .pill{margin-left:6px;padding:9px 18px;font-size:13.5px}
+@media(max-width:820px){.navlinks a:not(.pill){display:none}}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:150px 28px 40px;overflow:hidden;isolation:isolate;
+}
+#smoke{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block;background:#050506}
+.hero-vignette{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0.85) 100%),
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+.hero-plus{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.hero-plus span{
+  position:absolute;color:rgba(245,245,247,0.28);font-size:18px;line-height:1;font-family:'IBM Plex Mono',monospace;
+}
+.hero-mark{position:relative;z-index:1}
+.hero-mark .word{
+  display:flex;align-items:flex-end;flex-wrap:wrap;gap:0 22px;
+  font-family:'Sora',sans-serif;font-weight:800;letter-spacing:-0.045em;
+  font-size:clamp(58px,13vw,190px);line-height:0.82;color:var(--text);
+  opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .15s forwards;
+}
+.hero-mark .word sup{font-size:0.32em;font-weight:600;letter-spacing:0;margin-left:2px;top:-0.5em}
+.hero-mark .word2{
+  font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-0.02em;
+  font-size:clamp(26px,4vw,54px);color:var(--text-dim);margin-top:4px;
+  opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .3s forwards;
+}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-tags{
+  position:absolute;top:150px;right:28px;z-index:1;text-align:right;
+  display:flex;flex-direction:column;gap:9px;
+  opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .45s forwards;
+}
+.hero-tags span{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;color:var(--text)}
+@media(max-width:720px){.hero-tags{display:none}}
+
+.hero-foot{
+  position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;
+  margin-top:60px;flex-wrap:wrap;
+  opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .6s forwards;
+}
+.hero-stmt{max-width:38ch}
+.hero-stmt p{font-size:15.5px;color:var(--text-dim);line-height:1.6}
+.hero-stmt .cr{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(245,245,247,0.4)}
+
+.hero-card{
+  background:var(--text);color:var(--void);border-radius:18px;padding:16px 18px;
+  display:flex;align-items:center;gap:14px;min-width:270px;
+}
+.hero-card .av{
+  width:46px;height:46px;border-radius:50%;background:var(--void);color:var(--text);flex:none;
+  display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;
+}
+.hero-card .cp{flex:1}
+.hero-card .cp b{display:block;font-size:14.5px;font-weight:700}
+.hero-card .cp span{font-size:12px;color:#55555c}
+.hero-card .go{
+  width:36px;height:36px;border-radius:50%;background:var(--void);color:var(--text);flex:none;
+  display:flex;align-items:center;justify-content:center;transition:transform .3s cubic-bezier(.16,1,.3,1);
+}
+.hero-card:hover .go{transform:rotate(45deg)}
+
+.hero-cta-row{position:relative;z-index:1;display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;
+  opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .5s forwards;
+}
+
+/* ---------- DEMO CARD ---------- */
+.demo-wrap{margin-top:70px}
+.demo-card{
+  position:relative;border-radius:28px;border:1px solid var(--border-strong);
+  background:var(--surface);overflow:hidden;padding:1px;
+}
+.demo-glow{
+  position:absolute;inset:-1px;border-radius:28px;pointer-events:none;opacity:0;transition:opacity .4s ease;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(245,184,65,0.35), transparent 60%);
+}
+.demo-card:hover .demo-glow{opacity:1}
+.demo-inner{position:relative;background:var(--surface);border-radius:27px;padding:0}
+.demo-chrome{display:flex;align-items:center;gap:8px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.demo-chrome .dotc{width:10px;height:10px;border-radius:50%;background:var(--border-strong)}
+.demo-chrome .label{margin-left:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)}
+.demo-body{padding:36px 32px 32px}
+@media(max-width:600px){.demo-body{padding:24px 18px}}
+.demo-chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.demo-chip{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:9px 16px;border-radius:100px;
+  border:1px solid var(--border-strong);color:var(--text-dim);cursor:pointer;transition:all .25s ease;background:transparent;
+}
+.demo-chip.active{background:var(--accent);color:var(--void);border-color:var(--accent)}
+.demo-chip:not(.active):hover{border-color:var(--text-dim);color:var(--text)}
+.demo-thread{min-height:150px;display:flex;flex-direction:column;gap:14px;justify-content:flex-end}
+.bubble{max-width:78%;padding:14px 18px;border-radius:16px;font-size:14.5px;line-height:1.55;
+  opacity:0;transform:translateY(10px);transition:all .5s cubic-bezier(.16,1,.3,1);
+}
+.bubble.in{opacity:1;transform:translateY(0)}
+.bubble.you{align-self:flex-end;background:var(--surface-2);border:1px solid var(--border-strong);border-bottom-right-radius:4px}
+.bubble.us{align-self:flex-start;background:rgba(245,184,65,0.10);border:1px solid rgba(245,184,65,0.3);border-bottom-left-radius:4px}
+.bubble.us b{color:var(--accent)}
+.demo-input-row{display:flex;gap:10px;margin-top:22px;align-items:center}
+.demo-input{
+  flex:1;border:1px solid var(--border-strong);background:var(--surface-2);border-radius:14px;
+  padding:14px 16px;color:var(--text-dim);font-size:14px;font-family:'Manrope',sans-serif;
+}
+.demo-send{
+  width:44px;height:44px;border-radius:12px;background:var(--accent);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex:none;transition:all .25s ease;
+}
+.demo-send:hover{transform:scale(1.06)}
+.demo-send:disabled{opacity:.4;cursor:default;transform:none}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ---------- SECTION HEAD ---------- */
+.section-head{margin-bottom:52px;max-width:640px}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);display:block;margin-bottom:16px}
+.section-head h2{font-size:clamp(28px,3.6vw,44px);line-height:1.1}
+.section-head p{color:var(--text-dim);font-size:16px;line-height:1.6;margin-top:16px;max-width:52ch}
+
+/* ---------- BENTO ---------- */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.bento{grid-template-columns:1fr}}
+.tile{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:30px;
+  transition:border-color .3s ease, transform .1s ease;transform-style:preserve-3d;perspective:800px;
+  display:flex;flex-direction:column;min-height:340px;
+}
+.tile:hover{border-color:var(--border-strong)}
+.tile .tile-vis{flex:1;border-radius:16px;background:var(--surface-2);border:1px solid var(--border);margin-bottom:22px;position:relative;overflow:hidden;min-height:150px}
+.tile h3{font-size:19px;margin-bottom:8px}
+.tile p{color:var(--text-dim);font-size:14px;line-height:1.6}
+
+/* tile 1: collab cursor */
+.vis-cursor{position:absolute;inset:14px}
+.vis-cursor .row{height:8px;border-radius:4px;background:var(--border-strong);margin-bottom:10px}
+.vis-cursor .row:nth-child(2){width:70%}
+.vis-cursor .row:nth-child(3){width:85%}
+.vis-cursor .row:nth-child(4){width:55%}
+.vis-cursor .cur{
+  position:absolute;display:flex;align-items:center;gap:6px;transition:all 2.6s cubic-bezier(.4,0,.2,1);
+}
+.vis-cursor .cur .arrow{width:0;height:0;border-style:solid;border-width:0 5px 8px 0;border-color:transparent var(--accent) transparent transparent;transform:rotate(200deg)}
+.vis-cursor .cur .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--accent);color:var(--void);padding:2px 8px;border-radius:100px;white-space:nowrap}
+
+/* tile 2: research chips */
+.vis-research{position:absolute;inset:14px;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.vis-research .r{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);padding:10px 12px;
+  border:1px solid var(--border);border-radius:10px;opacity:0;transform:translateX(-8px);
+  transition:all .6s cubic-bezier(.16,1,.3,1);
+}
+.vis-research .r.show{opacity:1;transform:translateX(0)}
+.vis-research .r b{color:var(--accent-2);font-weight:500}
+
+/* tile 3: tokens */
+.vis-tokens{position:absolute;inset:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-content:center}
+.vis-tokens .sw{aspect-ratio:1;border-radius:8px;border:1px solid var(--border-strong)}
+
+/* ---------- TABS ---------- */
+.tabs-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tab-btn{
+  font-size:14px;font-weight:600;color:var(--text-dim);background:transparent;border:1px solid var(--border);
+  padding:11px 20px;border-radius:100px;cursor:pointer;transition:all .25s ease;
+}
+.tab-btn.active{color:var(--void);background:var(--text);border-color:var(--text)}
+.tab-btn:not(.active):hover{border-color:var(--border-strong);color:var(--text)}
+.tab-panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:40px;min-height:260px;
+}
+@media(max-width:600px){.tab-panel{padding:24px}}
+.tab-fade{opacity:0;animation:tabin .5s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes tabin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.token-row{display:grid;grid-template-columns:1fr 1fr 2fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);font-size:13.5px}
+.token-row:last-child{border-bottom:none}
+.token-row .tn{font-family:'IBM Plex Mono',monospace;color:var(--accent-2)}
+.token-row .tv{font-family:'IBM Plex Mono',monospace;color:var(--text-dim)}
+.fidelity-row{display:flex;align-items:center;gap:0}
+.fid-step{flex:1;text-align:center;position:relative}
+.fid-step .dot{width:14px;height:14px;border-radius:50%;background:var(--surface-2);border:2px solid var(--border-strong);margin:0 auto 12px;position:relative;z-index:2}
+.fid-step.done .dot{background:var(--accent);border-color:var(--accent)}
+.fid-step .lbl{font-size:12.5px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace}
+.fid-step.done .lbl{color:var(--text)}
+.fid-line{position:absolute;top:6px;left:-50%;right:50%;height:2px;background:var(--border-strong);z-index:1}
+.fid-step.done .fid-line{background:var(--accent)}
+.fid-step:first-child .fid-line{display:none}
+.audit-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.audit-table th{text-align:left;color:var(--text-dim);font-weight:500;font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.audit-table td{padding:14px 0;border-bottom:1px solid var(--border)}
+.audit-table tr:last-child td{border-bottom:none}
+.audit-table .lift{color:var(--accent);font-weight:600}
+.method-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.method-chip{border:1px solid var(--border-strong);border-radius:14px;padding:16px 18px;flex:1;min-width:150px}
+.method-chip .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent-2);margin-bottom:6px;display:block}
+.method-chip .t{font-size:14.5px;font-weight:600}
+.tab-note{font-size:13px;color:var(--text-dim);margin-top:20px;font-style:normal}
+
+/* ---------- WORK GRID ---------- */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.work-grid{grid-template-columns:1fr}}
+.work-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:30px;
+  transition:border-color .3s ease;position:relative;overflow:hidden;
+}
+.work-card:hover{border-color:var(--border-strong)}
+.work-card .tt{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
+.work-card h3{font-size:21px;margin-top:18px;font-weight:700}
+.work-card p{color:var(--text-dim);font-size:14px;line-height:1.6;margin-top:12px}
+
+/* ---------- PROCESS ROW ---------- */
+.process-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity}
+.process-scroll::-webkit-scrollbar{height:6px}
+.process-scroll::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+.pcard{
+  scroll-snap-align:start;flex:0 0 260px;background:var(--surface);border:1px solid var(--border);
+  border-radius:22px;padding:26px;
+}
+@media(max-width:520px){.pcard{flex-basis:78vw}}
+.pcard .n{font-family:'IBM Plex Mono',monospace;font-size:26px;color:var(--accent);font-weight:600}
+.pcard h3{font-size:18px;margin:14px 0 8px}
+.pcard p{color:var(--text-dim);font-size:13.5px;line-height:1.6}
+
+/* ---------- CONTACT ---------- */
+.contact-card{
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:32px;padding:70px 56px;
+  text-align:center;position:relative;overflow:hidden;
+}
+@media(max-width:720px){.contact-card{padding:44px 26px}}
+.contact-card h2{font-size:clamp(32px,5.2vw,58px);max-width:16ch;margin:0 auto}
+.contact-card .sub{color:var(--text-dim);font-size:16px;margin:20px auto 34px;max-width:44ch}
+.contact-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+footer{padding:36px 0}
+.foot-row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--text-dim)}
+.foot-row a{color:var(--text-dim);transition:color .2s ease}
+.foot-row a:hover{color:var(--text)}
+.foot-links{display:flex;gap:20px}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useEffect, useRef, useState } = React;
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function useReveal(){
+  useEffect(()=>{
+    const els = document.querySelectorAll('.reveal');
+    if(prefersReduced){ els.forEach(e=>e.classList.add('in')); return; }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+    },{threshold:0.15});
+    els.forEach(e=>io.observe(e));
+    return ()=>io.disconnect();
+  },[]);
+}
+
+const ARROW = <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>;
+
+function Logo(){
+  return (
+    <a href="#hero" className="logo">
+      <span className="mark">
+        <svg viewBox="0 0 30 30" fill="none">
+          <g className="bar">
+            <polygon points="15,15 11,1.5 19,1.5" fill="#f5b841"/>
+            <polygon points="15,15 11,1.5 19,1.5" fill="#4fd8cf" transform="rotate(90 15 15)"/>
+            <polygon points="15,15 11,1.5 19,1.5" fill="#f5f5f7" transform="rotate(180 15 15)"/>
+            <polygon points="15,15 11,1.5 19,1.5" fill="#8a8a92" transform="rotate(270 15 15)"/>
+            <circle cx="15" cy="15" r="2.6" fill="#050506"/>
+          </g>
+        </svg>
+      </span>
+      Xperience Studios
+    </a>
+  );
+}
+
+function Nav(){
+  return (
+    <nav className="nav">
+      <Logo/>
+      <div className="navlinks">
+        <a href="#practice">Practice</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#contact" className="pill">Start a project</a>
+      </div>
+    </nav>
+  );
+}
+
+const DEMOS = [
+  {chip:"Onboarding audit", you:"Our signup-to-activation drop-off jumped to 61% last month.", us:<span><b>First move:</b> a 5-user hallway test on the current flow this week, alongside a funnel breakdown by step — we'll know if it's copy, friction, or trust before we touch a single screen.</span>},
+  {chip:"Design system", you:"We have three product surfaces and zero shared components.", us:<span><b>First move:</b> a token audit across all three — color, type, spacing — then one component library all three teams pull from, starting with buttons, forms, and cards.</span>},
+  {chip:"Checkout redesign", you:"Cart-to-purchase conversion has been flat for two quarters.", us:<span><b>First move:</b> session recordings on the current checkout plus a competitive teardown, then two prototype directions tested head-to-head with real traffic.</span>},
+];
+
+function DemoCard(){
+  const [active, setActive] = useState(0);
+  const [sent, setSent] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(()=>{
+    const el = cardRef.current;
+    if(!el || prefersReduced) return;
+    const setX = gsap.quickSetter(el, '--mx', 'px');
+    const setY = gsap.quickSetter(el, '--my', 'px');
+    function onMove(e){
+      const r = el.getBoundingClientRect();
+      setX(e.clientX - r.left);
+      setY(e.clientY - r.top);
+    }
+    el.addEventListener('mousemove', onMove);
+    return ()=>el.removeEventListener('mousemove', onMove);
+  },[]);
+
+  function pick(i){ setActive(i); setSent(false); }
+  function send(){ if(!sent) setSent(true); }
+
+  return (
+    <div className="demo-wrap reveal">
+      <div className="demo-card" ref={cardRef}>
+        <div className="demo-glow"></div>
+        <div className="demo-inner">
+          <div className="demo-chrome">
+            <span className="dotc"></span><span className="dotc"></span><span className="dotc"></span>
+            <span className="label">How it starts — a real kickoff message, illustrative example</span>
+          </div>
+          <div className="demo-body">
+            <div className="demo-chips">
+              {DEMOS.map((d,i)=>(
+                <button key={d.chip} className={"demo-chip"+(active===i?" active":"")} onClick={()=>pick(i)}>{d.chip}</button>
+              ))}
+            </div>
+            <div className="demo-thread">
+              <div className={"bubble you in"}>{DEMOS[active].you}</div>
+              <div className={"bubble us"+(sent?" in":"")}>{DEMOS[active].us}</div>
+            </div>
+            <div className="demo-input-row">
+              <div className="demo-input">Type your situation, or press send to see how we'd respond →</div>
+              <button className="demo-send" onClick={send} disabled={sent} aria-label="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SmokeCanvas(){
+  const ref = useRef(null);
+  useEffect(()=>{
+    const canvas = ref.current;
+    const ctx = canvas.getContext('2d');
+    let w,h,dpr,raf;
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = w*dpr; canvas.height = h*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const puffs = Array.from({length:9}).map((_,i)=>({
+      x: 0.5 + (Math.random()-0.5)*0.5,
+      y: 1.05 + Math.random()*0.3,
+      r: 0.28 + Math.random()*0.3,
+      speed: 0.00018 + Math.random()*0.00022,
+      sway: Math.random()*Math.PI*2,
+      swaySpeed: 0.0003 + Math.random()*0.0004,
+      shade: 40 + Math.random()*90,
+      squash: 1.4 + Math.random()*0.8,
+    }));
+
+    let t=0;
+    function draw(){
+      t += 16;
+      ctx.fillStyle = '#050506';
+      ctx.fillRect(0,0,w,h);
+      ctx.globalCompositeOperation = 'lighten';
+      puffs.forEach(p=>{
+        let py = p.y - (t*p.speed)%1.5;
+        if(py < -0.35){ py += 1.5; }
+        const px = p.x + Math.sin(t*p.swaySpeed + p.sway)*0.08;
+        const cx = px*w, cy = py*h;
+        const r = p.r*Math.max(w,h);
+        const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+        const c = `rgb(${p.shade},${p.shade},${p.shade})`;
+        grad.addColorStop(0, c);
+        grad.addColorStop(1, 'rgba(5,5,6,0)');
+        ctx.fillStyle = grad;
+        ctx.save();
+        ctx.translate(cx,cy);
+        ctx.scale(1, 1/p.squash);
+        ctx.translate(-cx,-cy);
+        ctx.beginPath();
+        ctx.arc(cx,cy,r,0,Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      });
+      ctx.globalCompositeOperation = 'source-over';
+      raf = requestAnimationFrame(draw);
+    }
+    if(prefersReduced){ draw(); cancelAnimationFrame(raf); } else { draw(); }
+    return ()=>{ window.removeEventListener('resize', resize); if(raf) cancelAnimationFrame(raf); };
+  },[]);
+  return <canvas id="smoke" ref={ref}></canvas>;
+}
+
+function Hero(){
+  return (
+    <section className="hero" id="hero">
+      <SmokeCanvas/>
+      <div className="hero-vignette"></div>
+      <div className="hero-plus">
+        <span style={{top:'28%',left:'8%'}}>+</span>
+        <span style={{top:'52%',left:'22%'}}>+</span>
+        <span style={{top:'34%',left:'62%'}}>+</span>
+        <span style={{top:'60%',left:'78%'}}>+</span>
+      </div>
+
+      <div className="hero-tags">
+        <span>UX Strategy</span>
+        <span>Interface Design</span>
+        <span>Design Systems</span>
+        <span>Service Design</span>
+      </div>
+
+      <div className="hero-mark">
+        <div className="word">Xperience<sup>®</sup></div>
+        <div className="word2">Studios</div>
+      </div>
+
+      <div className="hero-cta-row">
+        <a className="pill" href="#contact">Start a project {ARROW}</a>
+        <a className="pill-outline" href="#process">See how we work</a>
+      </div>
+
+      <div className="hero-foot">
+        <div className="hero-stmt">
+          <p>No generic UI kits. No 80-slide strategy decks. Just interfaces and systems that hold up once real users touch them.</p>
+          <div className="cr">© {new Date().getFullYear()} Xperience Studios</div>
+        </div>
+        <a className="hero-card" href="#contact">
+          <span className="av">XS</span>
+          <span className="cp"><b>Currently booking</b><span>Q1 project slots — reply within 1 day</span></span>
+          <span className="go">{ARROW}</span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function TileCursor(){
+  const ref = useRef(null);
+  useEffect(()=>{
+    if(prefersReduced) return;
+    const el = ref.current;
+    const spots = [[10,14,'Maya — editing'],[60,54,'Sam — reviewing'],[30,74,'Maya — editing'],[74,20,'Sam — reviewing']];
+    let i=0;
+    function step(){
+      const [x,y,label] = spots[i%spots.length];
+      el.style.left = x+'%'; el.style.top = y+'%';
+      el.querySelector('.tag').textContent = label;
+      i++;
+    }
+    step();
+    const id = setInterval(step, 2600);
+    return ()=>clearInterval(id);
+  },[]);
+  return (
+    <div className="vis-cursor">
+      <div className="row" style={{width:'40%'}}></div>
+      <div className="row"></div>
+      <div className="row"></div>
+      <div className="row"></div>
+      <div className="cur" ref={ref}><span className="arrow"></span><span className="tag">Maya — editing</span></div>
+    </div>
+  );
+}
+
+function TileResearch(){
+  const items = ["Checkout drop-off spikes at step 3", "40% miss the mobile nav tap target", "Onboarding step 2 loses a third of users"];
+  const [shown, setShown] = useState(0);
+  useEffect(()=>{
+    if(prefersReduced){ setShown(items.length); return; }
+    const id = setInterval(()=> setShown(s => (s>=items.length ? 0 : s+1)), 1400);
+    return ()=>clearInterval(id);
+  },[]);
+  return (
+    <div className="vis-research">
+      {items.map((t,i)=>(
+        <div className={"r"+(i<shown?" show":"")} key={t}><b>Finding</b> — {t}</div>
+      ))}
+    </div>
+  );
+}
+
+function TileTokens(){
+  const colors = ['#f5b841','#4fd8cf','#f5f5f7','#8a8a92','#f5b841aa','#4fd8cfaa','#f5f5f733','#8a8a9255'];
+  return (
+    <div className="vis-tokens">
+      {colors.map((c,i)=>(<div className="sw" style={{background:c}} key={i}></div>))}
+    </div>
+  );
+}
+
+function TiltTile({children, title, desc}){
+  const ref = useRef(null);
+  function onMove(e){
+    if(prefersReduced) return;
+    const el = ref.current;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left)/r.width - 0.5;
+    const py = (e.clientY - r.top)/r.height - 0.5;
+    el.style.transform = `rotateY(${px*6}deg) rotateX(${-py*6}deg)`;
+  }
+  function onLeave(){ if(ref.current) ref.current.style.transform = 'rotateY(0) rotateX(0)'; }
+  return (
+    <div className="tile reveal" ref={ref} onMouseMove={onMove} onMouseLeave={onLeave}>
+      <div className="tile-vis">{children}</div>
+      <h3>{title}</h3>
+      <p>{desc}</p>
+    </div>
+  );
+}
+
+function Bento(){
+  return (
+    <section>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">How we work with you</span>
+          <h2>A studio that works inside your team, not around it.</h2>
+          <p>No account layer between you and the work — you see it move in real time, in your own tools.</p>
+        </div>
+        <div className="bento">
+          <TiltTile title="Design, visible from day one" desc="You're in the same file we are — every change is visible, commentable, and reversible, not saved for a big reveal.">
+            <TileCursor/>
+          </TiltTile>
+          <TiltTile title="Research with a receipt" desc="Every recommendation traces back to a session, a heatmap, or a number — never just an opinion in a deck.">
+            <TileResearch/>
+          </TiltTile>
+          <TiltTile title="Systems that hold" desc="Tokens and components documented well enough that your team can extend them after we're gone.">
+            <TileTokens/>
+          </TiltTile>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ResearchPanel(){
+  return (
+    <div className="tab-fade">
+      <div className="method-row">
+        <div className="method-chip"><span className="n">Method</span><div className="t">Moderated usability tests</div></div>
+        <div className="method-chip"><span className="n">Method</span><div className="t">Funnel &amp; session analysis</div></div>
+        <div className="method-chip"><span className="n">Method</span><div className="t">Stakeholder interviews</div></div>
+      </div>
+      <p className="tab-note">Every engagement opens with the method that answers the actual question — not a default battery of tests. Findings ship as a short brief with clips, not a 60-slide readout.</p>
+    </div>
+  );
+}
+function SystemsPanel(){
+  const rows = [["color.accent.primary","#F5B841","Primary CTAs, active states"],["space.md","16px","Card padding, list gaps"],["radius.lg","24px","Cards, modals, tiles"],["type.scale.h2","32 / 40","Section headings"]];
+  return (
+    <div className="tab-fade">
+      <div className="token-row" style={{fontFamily:"'IBM Plex Mono',monospace",color:'var(--text-dim)',fontSize:'11.5px',textTransform:'uppercase',letterSpacing:'.05em'}}>
+        <span>Token</span><span>Value</span><span>Used for</span>
+      </div>
+      {rows.map(r=>(
+        <div className="token-row" key={r[0]}><span className="tn">{r[0]}</span><span className="tv">{r[1]}</span><span>{r[2]}</span></div>
+      ))}
+      <p className="tab-note">Sample token sheet — every system ships as live components in Figma and code, not just a color palette.</p>
+    </div>
+  );
+}
+function ProtoPanel(){
+  const steps = ["Sketch","Wireframe","Hi-fi","Interactive"];
+  return (
+    <div className="tab-fade">
+      <div className="fidelity-row">
+        {steps.map((s,i)=>(
+          <div className={"fid-step"+(i<=2?" done":"")} key={s}>
+            {i>0 && <div className="fid-line"></div>}
+            <div className="dot"></div>
+            <div className="lbl">{s}</div>
+          </div>
+        ))}
+      </div>
+      <p className="tab-note" style={{marginTop:'40px'}}>We move up in fidelity only as fast as decisions get made — no polished screens for ideas that haven't been validated yet.</p>
+    </div>
+  );
+}
+function HandoffPanel(){
+  const rows = [["Checkout flow","2.1%","3.4%","+62%"],["Onboarding","41%","68%","+66%"],["Mobile nav","54%","81%","+50%"]];
+  return (
+    <div className="tab-fade">
+      <table className="audit-table">
+        <thead><tr><th>Flow</th><th>Before</th><th>After redesign</th><th>Lift</th></tr></thead>
+        <tbody>
+          {rows.map(r=>(<tr key={r[0]}><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td className="lift">{r[3]}</td></tr>))}
+        </tbody>
+      </table>
+      <p className="tab-note">Sample results format from a completed engagement type — your numbers depend on your baseline, which we measure in week one.</p>
+    </div>
+  );
+}
+
+function Practice(){
+  const tabs = [
+    {id:'research', label:'Research', panel:<ResearchPanel/>},
+    {id:'systems', label:'Design Systems', panel:<SystemsPanel/>},
+    {id:'proto', label:'Prototyping', panel:<ProtoPanel/>},
+    {id:'handoff', label:'Handoff & Results', panel:<HandoffPanel/>},
+  ];
+  const [active, setActive] = useState('research');
+  return (
+    <section id="practice">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">The full practice</span>
+          <h2>Not just a deck — a repeatable practice.</h2>
+          <p>Four disciplines that run under one roof, so nothing gets lost in a handoff between agencies.</p>
+        </div>
+        <div className="reveal">
+          <div className="tabs-bar">
+            {tabs.map(t=>(
+              <button key={t.id} className={"tab-btn"+(active===t.id?" active":"")} onClick={()=>setActive(t.id)}>{t.label}</button>
+            ))}
+          </div>
+          <div className="tab-panel">
+            {tabs.find(t=>t.id===active).panel}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const WORK = [
+  {f:"04–08 wks", t:"Product Design Sprint", d:"Early-stage founders needing a testable, investor-ready UI from a rough concept."},
+  {f:"08–16 wks", t:"Design System Build", d:"Scaling teams that need a shared component language before their next hire lands."},
+  {f:"Ongoing", t:"Embedded UX Partner", d:"A senior designer inside your team, part-time, for as long as the roadmap needs one."},
+  {f:"02–04 wks", t:"UX Audit & Roadmap", d:"A sharp, prioritized fix-list for a live product losing users to friction."},
+];
+function Work(){
+  return (
+    <section id="work">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">Engagement formats</span>
+          <h2>How work with us takes shape.</h2>
+          <p>Illustrative starting points — actual scope gets set with you in the first working session.</p>
+        </div>
+        <div className="work-grid reveal">
+          {WORK.map(w=>(
+            <div className="work-card" key={w.t}>
+              <div className="tt"><span>Format</span><span>{w.f}</span></div>
+              <h3>{w.t}</h3>
+              <p>{w.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const STAGES = [
+  {n:"01",t:"Diagnose",d:"Stakeholder interviews, analytics review, and a session to name the real problem — not the one in the brief."},
+  {n:"02",t:"Frame",d:"User flows, IA, and a strategy doc that becomes the spec everyone builds against."},
+  {n:"03",t:"Design",d:"High-fidelity UI in weekly reviews — you see the work move, not a reveal at the end."},
+  {n:"04",t:"Validate",d:"Usability testing with real users before production code depends on the design."},
+  {n:"05",t:"Handoff",d:"Dev-ready files, documented components, and a walkthrough with engineering."},
+];
+function Process(){
+  return (
+    <section id="process">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">Process</span>
+          <h2>Five stages, one thread.</h2>
+          <p>Compressed for a sprint, extended for a system build — same sequence either way.</p>
+        </div>
+        <div className="process-scroll reveal">
+          {STAGES.map(s=>(
+            <div className="pcard" key={s.n}>
+              <div className="n">{s.n}</div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact(){
+  return (
+    <section id="contact">
+      <div className="wrap">
+        <div className="contact-card reveal">
+          <span className="kicker">Start a project</span>
+          <h2>Let's design your next move.</h2>
+          <p className="sub">Tell us what's not working. We'll tell you what we'd do about it in the first call — no pitch deck required.</p>
+          <div className="contact-actions">
+            <a className="pill" href="mailto:hello@xperiencestudios.com">hello@xperiencestudios.com {ARROW}</a>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div className="wrap foot-row">
+          <span>© {new Date().getFullYear()} Xperience Studios</span>
+          <div className="foot-links">
+            <a href="#work">Work</a>
+            <a href="#practice">Practice</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </section>
+  );
+}
+
+function DemoSection(){
+  return (
+    <section style={{paddingTop:'90px', paddingBottom:'40px'}}>
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">How it starts</span>
+          <h2>A real kickoff message, not a sales call.</h2>
+          <p>Pick a situation. This is genuinely how we'd respond in the first exchange.</p>
+        </div>
+        <DemoCard/>
+      </div>
+    </section>
+  );
+}
+
+function App(){
+  useReveal();
+  return (
+    <React.Fragment>
+      <Nav/>
+      <main>
+        <Hero/>
+        <DemoSection/>
+        <Bento/>
+        <Practice/>
+        <Work/>
+        <Process/>
+        <Contact/>
+      </main>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
