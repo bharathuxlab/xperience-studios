@@ -11,10 +11,10 @@
   --text:#f5f5f7;
   --text-dim:#8a8a92;
   --amber:#f5b841;
-  --teal:#4fd8cf;
+  --slate:#9aa4b2;
   --bg:var(--void);
   --accent:var(--amber);
-  --accent-2:var(--teal);
+  --accent-2:var(--slate);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -56,10 +56,9 @@ section{padding:130px 0}
 }
 @media(max-width:720px){.nav{padding:16px 20px}}
 .logo{display:flex;align-items:center;gap:9px;font-size:16.5px;font-weight:800;font-family:'Sora',sans-serif;letter-spacing:-0.01em}
-.logo .mark{width:22px;height:22px;flex:none}
+.logo .mark{width:26px;height:26px;flex:none;transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .logo .mark svg{width:100%;height:100%;display:block}
-.logo .mark .bar{transform-origin:center;animation:xspin 9s linear infinite}
-@keyframes xspin{to{transform:rotate(360deg)}}
+.logo:hover .mark{transform:rotate(-8deg) scale(1.06)}
 .navlinks{display:flex;gap:6px;align-items:center}
 .navlinks a{font-size:14px;color:var(--text-dim);transition:all .2s ease;padding:9px 14px;border-radius:8px}
 .navlinks a:hover{color:var(--text);background:rgba(255,255,255,0.06)}
@@ -189,9 +188,9 @@ section{padding:130px 0}
 .demo-send:hover{transform:scale(1.06)}
 .demo-send:disabled{opacity:.4;cursor:default;transform:none}
 
-/* ---------- REVEAL ---------- */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.reveal.in{opacity:1;transform:translateY(0)}
+/* ---------- REVEAL (scroll-scrubbed via GSAP, see useReveal) ---------- */
+.reveal{opacity:0;will-change:transform,opacity}
+.reveal.in{opacity:1}
 
 /* ---------- SECTION HEAD ---------- */
 .section-head{margin-bottom:52px;max-width:640px}
@@ -284,9 +283,20 @@ section{padding:130px 0}
   transition:border-color .3s ease;position:relative;overflow:hidden;
 }
 .work-card:hover{border-color:var(--border-strong)}
+.work-card{cursor:pointer}
 .work-card .tt{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
 .work-card h3{font-size:21px;margin-top:18px;font-weight:700}
 .work-card p{color:var(--text-dim);font-size:14px;line-height:1.6;margin-top:12px}
+.work-toggle{
+  display:flex;align-items:center;gap:8px;margin-top:20px;background:none;border:none;color:var(--accent);
+  font-size:13px;font-weight:600;cursor:pointer;padding:0;
+}
+.work-toggle .chev{display:flex;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.work-card.open .work-toggle .chev{transform:rotate(180deg)}
+.work-detail{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1)}
+.work-detail ul{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.work-detail li{list-style:none;font-size:13.5px;color:var(--text-dim);padding-left:20px;position:relative}
+.work-detail li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
 
 /* ---------- PROCESS ROW ---------- */
 .process-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity}
@@ -294,12 +304,21 @@ section{padding:130px 0}
 .process-scroll::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
 .pcard{
   scroll-snap-align:start;flex:0 0 260px;background:var(--surface);border:1px solid var(--border);
-  border-radius:22px;padding:26px;
+  border-radius:22px;padding:26px;text-align:left;cursor:pointer;transition:border-color .25s ease,background .25s ease;
+  font:inherit;color:inherit;
 }
 @media(max-width:520px){.pcard{flex-basis:78vw}}
+.pcard:hover{border-color:var(--border-strong)}
+.pcard.active{border-color:var(--accent);background:var(--surface-2)}
 .pcard .n{font-family:'IBM Plex Mono',monospace;font-size:26px;color:var(--accent);font-weight:600}
 .pcard h3{font-size:18px;margin:14px 0 8px}
 .pcard p{color:var(--text-dim);font-size:13.5px;line-height:1.6}
+.process-out{
+  margin-top:20px;padding:24px 28px;border:1px solid var(--border);border-radius:18px;background:var(--surface);
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.process-out .po-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.process-out p{font-size:14.5px;color:var(--text)}
 
 /* ---------- CONTACT ---------- */
 .contact-card{
@@ -310,6 +329,13 @@ section{padding:130px 0}
 .contact-card h2{font-size:clamp(32px,5.2vw,58px);max-width:16ch;margin:0 auto}
 .contact-card .sub{color:var(--text-dim);font-size:16px;margin:20px auto 34px;max-width:44ch}
 .contact-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.contact-actions .pill.ready{background:var(--accent);box-shadow:0 10px 30px -8px rgba(245,184,65,0.45)}
+.builder{display:flex;flex-direction:column;gap:20px;max-width:560px;margin:0 auto 34px}
+.builder-row{display:flex;flex-direction:column;align-items:center;gap:12px}
+@media(max-width:600px){.builder-row{align-items:flex-start}}
+.builder-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+.builder-chips{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
+@media(max-width:600px){.builder-chips{justify-content:flex-start}}
 
 footer{padding:36px 0}
 .foot-row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--text-dim)}
@@ -334,11 +360,36 @@ function useReveal(){
   useEffect(()=>{
     const els = document.querySelectorAll('.reveal');
     if(prefersReduced){ els.forEach(e=>e.classList.add('in')); return; }
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-    },{threshold:0.15});
-    els.forEach(e=>io.observe(e));
-    return ()=>io.disconnect();
+    gsap.registerPlugin(ScrollTrigger);
+
+    els.forEach((el, i)=>{
+      el.classList.add('in');
+      const fromScale = el.classList.contains('reveal-zoomout') ? 1.12 : 0.9;
+      gsap.fromTo(el,
+        {opacity:0, scale:fromScale, y:46},
+        {
+          opacity:1, scale:1, y:0, ease:'none',
+          scrollTrigger:{trigger:el, start:'top 92%', end:'top 48%', scrub:0.7}
+        }
+      );
+    });
+
+    document.querySelectorAll('.parallax-slow, .parallax-fast').forEach(el=>{
+      const dist = el.classList.contains('parallax-fast') ? 140 : 60;
+      gsap.to(el, {
+        y: -dist, ease:'none',
+        scrollTrigger:{trigger: el.closest('section')||el, start:'top bottom', end:'bottom top', scrub:true}
+      });
+    });
+
+    document.querySelectorAll('.zoom-shell').forEach(el=>{
+      gsap.fromTo(el, {scale:1.14}, {
+        scale:1, ease:'none',
+        scrollTrigger:{trigger:el, start:'top bottom', end:'top 20%', scrub:0.8}
+      });
+    });
+
+    return ()=>ScrollTrigger.getAll().forEach(st=>st.kill());
   },[]);
 }
 
@@ -348,14 +399,15 @@ function Logo(){
   return (
     <a href="#hero" className="logo">
       <span className="mark">
-        <svg viewBox="0 0 30 30" fill="none">
-          <g className="bar">
-            <polygon points="15,15 11,1.5 19,1.5" fill="#f5b841"/>
-            <polygon points="15,15 11,1.5 19,1.5" fill="#4fd8cf" transform="rotate(90 15 15)"/>
-            <polygon points="15,15 11,1.5 19,1.5" fill="#f5f5f7" transform="rotate(180 15 15)"/>
-            <polygon points="15,15 11,1.5 19,1.5" fill="#8a8a92" transform="rotate(270 15 15)"/>
-            <circle cx="15" cy="15" r="2.6" fill="#050506"/>
-          </g>
+        <svg viewBox="0 0 32 32" fill="none">
+          <defs>
+            <linearGradient id="xg" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0" stopColor="#f8c869"/>
+              <stop offset="1" stopColor="#e29a1f"/>
+            </linearGradient>
+          </defs>
+          <rect width="32" height="32" rx="9" fill="url(#xg)"/>
+          <path d="M10 10L22 22M22 10L10 22" stroke="#0a0a0c" strokeWidth="3.4" strokeLinecap="round"/>
         </svg>
       </span>
       Xperience Studios
@@ -406,7 +458,7 @@ function DemoCard(){
   function send(){ if(!sent) setSent(true); }
 
   return (
-    <div className="demo-wrap reveal">
+    <div className="demo-wrap reveal reveal-zoomout">
       <div className="demo-card" ref={cardRef}>
         <div className="demo-glow"></div>
         <div className="demo-inner">
@@ -495,7 +547,7 @@ function SmokeCanvas(){
     if(prefersReduced){ draw(); cancelAnimationFrame(raf); } else { draw(); }
     return ()=>{ window.removeEventListener('resize', resize); if(raf) cancelAnimationFrame(raf); };
   },[]);
-  return <canvas id="smoke" ref={ref}></canvas>;
+  return <canvas id="smoke" className="parallax-slow" ref={ref}></canvas>;
 }
 
 function Hero(){
@@ -517,7 +569,7 @@ function Hero(){
         <span>Service Design</span>
       </div>
 
-      <div className="hero-mark">
+      <div className="hero-mark parallax-fast">
         <div className="word">Xperience<sup>®</sup></div>
         <div className="word2">Studios</div>
       </div>
@@ -530,7 +582,7 @@ function Hero(){
       <div className="hero-foot">
         <div className="hero-stmt">
           <p>No generic UI kits. No 80-slide strategy decks. Just interfaces and systems that hold up once real users touch them.</p>
-          <div className="cr">© {new Date().getFullYear()} Xperience Studios</div>
+          <div className="cr">© {new Date().getFullYear()} Xperience Studios LLC</div>
         </div>
         <a className="hero-card" href="#contact">
           <span className="av">XS</span>
@@ -588,7 +640,7 @@ function TileResearch(){
 }
 
 function TileTokens(){
-  const colors = ['#f5b841','#4fd8cf','#f5f5f7','#8a8a92','#f5b841aa','#4fd8cfaa','#f5f5f733','#8a8a9255'];
+  const colors = ['#f5b841','#f5f5f7','#8a8a92','#f5b841aa','#3a3a40','#f5b84155','#f5f5f733','#8a8a9255'];
   return (
     <div className="vis-tokens">
       {colors.map((c,i)=>(<div className="sw" style={{background:c}} key={i}></div>))}
@@ -731,11 +783,28 @@ function Practice(){
 }
 
 const WORK = [
-  {f:"04–08 wks", t:"Product Design Sprint", d:"Early-stage founders needing a testable, investor-ready UI from a rough concept."},
-  {f:"08–16 wks", t:"Design System Build", d:"Scaling teams that need a shared component language before their next hire lands."},
-  {f:"Ongoing", t:"Embedded UX Partner", d:"A senior designer inside your team, part-time, for as long as the roadmap needs one."},
-  {f:"02–04 wks", t:"UX Audit & Roadmap", d:"A sharp, prioritized fix-list for a live product losing users to friction."},
+  {f:"04–08 wks", t:"Product Design Sprint", d:"Early-stage founders needing a testable, investor-ready UI from a rough concept.", get:["Working prototype in Figma, tested with 5 users","Investor-ready screens for your next pitch","A prioritized backlog for engineering"]},
+  {f:"08–16 wks", t:"Design System Build", d:"Scaling teams that need a shared component language before their next hire lands.", get:["Token library — color, type, spacing, radius","Component set in Figma + code (React)","Documentation your next hire can self-serve"]},
+  {f:"Ongoing", t:"Embedded UX Partner", d:"A senior designer inside your team, part-time, for as long as the roadmap needs one.", get:["Weekly design capacity, no ramp-up per sprint","Direct Slack access, same senior person throughout","Cancel or pause with two weeks' notice"]},
+  {f:"02–04 wks", t:"UX Audit & Roadmap", d:"A sharp, prioritized fix-list for a live product losing users to friction.", get:["Full flow-by-flow usability audit","Ranked fix list by effort vs. impact","A 90-minute walkthrough with your team"]},
 ];
+function WorkCard({w}){
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={"work-card"+(open?" open":"")} onClick={()=>setOpen(o=>!o)}>
+      <div className="tt"><span>Format</span><span>{w.f}</span></div>
+      <h3>{w.t}</h3>
+      <p>{w.d}</p>
+      <button className="work-toggle" onClick={(e)=>{e.stopPropagation(); setOpen(o=>!o);}} aria-expanded={open}>
+        {open ? "Hide what's included" : "What's included"}
+        <span className="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div className="work-detail" style={{maxHeight: open ? '220px' : '0px'}}>
+        <ul>{w.get.map(g=>(<li key={g}>{g}</li>))}</ul>
+      </div>
+    </div>
+  );
+}
 function Work(){
   return (
     <section id="work">
@@ -743,16 +812,10 @@ function Work(){
         <div className="section-head reveal">
           <span className="kicker">Engagement formats</span>
           <h2>How work with us takes shape.</h2>
-          <p>Illustrative starting points — actual scope gets set with you in the first working session.</p>
+          <p>Illustrative starting points — click a card for what's included. Actual scope gets set with you in the first working session.</p>
         </div>
         <div className="work-grid reveal">
-          {WORK.map(w=>(
-            <div className="work-card" key={w.t}>
-              <div className="tt"><span>Format</span><span>{w.f}</span></div>
-              <h3>{w.t}</h3>
-              <p>{w.d}</p>
-            </div>
-          ))}
+          {WORK.map(w=>(<WorkCard w={w} key={w.t}/>))}
         </div>
       </div>
     </section>
@@ -760,51 +823,90 @@ function Work(){
 }
 
 const STAGES = [
-  {n:"01",t:"Diagnose",d:"Stakeholder interviews, analytics review, and a session to name the real problem — not the one in the brief."},
-  {n:"02",t:"Frame",d:"User flows, IA, and a strategy doc that becomes the spec everyone builds against."},
-  {n:"03",t:"Design",d:"High-fidelity UI in weekly reviews — you see the work move, not a reveal at the end."},
-  {n:"04",t:"Validate",d:"Usability testing with real users before production code depends on the design."},
-  {n:"05",t:"Handoff",d:"Dev-ready files, documented components, and a walkthrough with engineering."},
+  {n:"01",t:"Diagnose",d:"Stakeholder interviews, analytics review, and a session to name the real problem — not the one in the brief.",out:"A one-page problem statement everyone on the team agrees on."},
+  {n:"02",t:"Frame",d:"User flows, IA, and a strategy doc that becomes the spec everyone builds against.",out:"Flow diagrams and a strategy doc engineering can scope against."},
+  {n:"03",t:"Design",d:"High-fidelity UI in weekly reviews — you see the work move, not a reveal at the end.",out:"Weekly Figma reviews, live comments, no surprise reveals."},
+  {n:"04",t:"Validate",d:"Usability testing with real users before production code depends on the design.",out:"Session recordings and a short list of what to fix before build."},
+  {n:"05",t:"Handoff",d:"Dev-ready files, documented components, and a walkthrough with engineering.",out:"Dev-ready files plus a live walkthrough with your engineers."},
 ];
 function Process(){
+  const [active, setActive] = useState(0);
   return (
     <section id="process">
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Process</span>
           <h2>Five stages, one thread.</h2>
-          <p>Compressed for a sprint, extended for a system build — same sequence either way.</p>
+          <p>Compressed for a sprint, extended for a system build. Click a stage to see what it hands you.</p>
         </div>
         <div className="process-scroll reveal">
-          {STAGES.map(s=>(
-            <div className="pcard" key={s.n}>
+          {STAGES.map((s,i)=>(
+            <button className={"pcard"+(active===i?" active":"")} key={s.n} onClick={()=>setActive(i)}>
               <div className="n">{s.n}</div>
               <h3>{s.t}</h3>
               <p>{s.d}</p>
-            </div>
+            </button>
           ))}
+        </div>
+        <div className="process-out reveal">
+          <span className="po-label">What you get — Stage {STAGES[active].n}</span>
+          <p>{STAGES[active].out}</p>
         </div>
       </div>
     </section>
   );
 }
 
+const PROJECT_TYPES = ["New product","Redesign","Design system","Audit"];
+const TIMELINES = ["ASAP","Next month","This quarter","Just exploring"];
+
 function Contact(){
+  const [type, setType] = useState(null);
+  const [timeline, setTimeline] = useState(null);
+  const ready = type && timeline;
+  const subject = ready ? `${type} — ${timeline}` : '';
+  const body = ready ? `Hi Xperience Studios,\n\nWe're looking at a ${type.toLowerCase()} project, timeline: ${timeline.toLowerCase()}.\n\nHere's what's going on:\n` : '';
+  const href = ready
+    ? `mailto:hello@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    : 'mailto:hello@xperiencestudios.com';
+
   return (
     <section id="contact">
       <div className="wrap">
-        <div className="contact-card reveal">
+        <div className="contact-card reveal reveal-zoomout">
           <span className="kicker">Start a project</span>
           <h2>Let's design your next move.</h2>
-          <p className="sub">Tell us what's not working. We'll tell you what we'd do about it in the first call — no pitch deck required.</p>
+          <p className="sub">Two taps, and we'll draft the email for you — no pitch deck required.</p>
+
+          <div className="builder">
+            <div className="builder-row">
+              <span className="builder-label">What is it</span>
+              <div className="builder-chips">
+                {PROJECT_TYPES.map(t=>(
+                  <button key={t} className={"demo-chip"+(type===t?" active":"")} onClick={()=>setType(t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+            <div className="builder-row">
+              <span className="builder-label">When</span>
+              <div className="builder-chips">
+                {TIMELINES.map(t=>(
+                  <button key={t} className={"demo-chip"+(timeline===t?" active":"")} onClick={()=>setTimeline(t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="contact-actions">
-            <a className="pill" href="mailto:hello@xperiencestudios.com">hello@xperiencestudios.com {ARROW}</a>
+            <a className={"pill"+(ready?" ready":"")} href={href}>
+              {ready ? `Send: ${subject}` : 'hello@xperiencestudios.com'} {ARROW}
+            </a>
           </div>
         </div>
       </div>
       <footer>
         <div className="wrap foot-row">
-          <span>© {new Date().getFullYear()} Xperience Studios</span>
+          <span>© {new Date().getFullYear()} Xperience Studios LLC</span>
           <div className="foot-links">
             <a href="#work">Work</a>
             <a href="#practice">Practice</a>
