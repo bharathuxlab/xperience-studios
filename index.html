@@ -185,10 +185,6 @@ function HeroIllustration(){
             <stop offset="0" stopColor="#fdfbf3"/>
             <stop offset="1" stopColor="#e9e5d4"/>
           </linearGradient>
-          <linearGradient id="hiBubble" x1="30" y1="300" x2="180" y2="410" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#e8fa9a"/>
-            <stop offset="1" stopColor="#d7f23f"/>
-          </linearGradient>
           <linearGradient id="hiCursor" x1="300" y1="40" x2="400" y2="150" gradientUnits="userSpaceOnUse">
             <stop offset="0" stopColor="#ffffff"/>
             <stop offset="1" stopColor="#d9d4c2"/>
@@ -218,12 +214,6 @@ function HeroIllustration(){
         <rect x="330" y="300" width="96" height="46" rx="23" fill="url(#hiToggle)"/>
         <circle cx="398" cy="323" r="16" fill="#fffaf0"/>
 
-        {/* chat bubble */}
-        <path d="M28 320c0-19 15-34 34-34h96c19 0 34 15 34 34v46c0 19-15 34-34 34h-70l-24 22v-22h-2c-19 0-34-15-34-34v-46z" fill="url(#hiBubble)"/>
-        <circle cx="74" cy="352" r="7" fill="#1c2b0e"/>
-        <circle cx="98" cy="352" r="7" fill="#1c2b0e"/>
-        <circle cx="122" cy="352" r="7" fill="#1c2b0e"/>
-
         {/* cursor */}
         <path d="M304 44l86 78-40 6 24 44-22 12-24-44-28 30z" fill="url(#hiCursor)" stroke="#fdfbf3" strokeWidth="2" strokeLinejoin="round"/>
         <rect x="366" y="44" width="86" height="28" rx="14" fill="#0d3a2b"/>
@@ -235,6 +225,9 @@ function HeroIllustration(){
         <circle cx="410" cy="200" r="5" fill="#fdfbf3" opacity="0.4"/>
         <circle cx="440" cy="270" r="7" fill="#d7f23f" opacity="0.7"/>
       </svg>
+      <div className="hero-photo">
+        <img src="assets/speaker.jpg" alt="Bharath Kumar Salla speaking on a UX panel about UnitedHealth Group's platform rollout"/>
+      </div>
     </div>
   );
 }
