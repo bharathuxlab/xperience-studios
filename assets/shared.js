@@ -80,8 +80,8 @@ function Logo(){
         <svg viewBox="0 0 32 32" fill="none">
           <defs>
             <linearGradient id="xg" x1="0" y1="0" x2="32" y2="32">
-              <stop offset="0" stopColor="#f8c869"/>
-              <stop offset="1" stopColor="#e29a1f"/>
+              <stop offset="0" stopColor="#e8fa9a"/>
+              <stop offset="1" stopColor="#d7f23f"/>
             </linearGradient>
           </defs>
           <rect width="32" height="32" rx="0" fill="url(#xg)"/>
