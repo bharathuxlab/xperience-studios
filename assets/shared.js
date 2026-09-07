@@ -85,7 +85,7 @@ function Logo(){
             </linearGradient>
           </defs>
           <rect width="32" height="32" rx="0" fill="url(#xg)"/>
-          <path d="M10 10L22 22M22 10L10 22" stroke="#0a0a0c" strokeWidth="3.4" strokeLinecap="round"/>
+          <path d="M10 10L22 22M22 10L10 22" stroke="#14201a" strokeWidth="3.4" strokeLinecap="round"/>
         </svg>
       </span>
       Xperience Studios
