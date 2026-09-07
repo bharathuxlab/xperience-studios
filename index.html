@@ -279,6 +279,12 @@ section{padding:130px 0;scroll-margin-top:90px}
 .tab-note{font-size:13px;color:var(--text-dim);margin-top:20px;font-style:normal}
 
 /* ---------- WORK GRID ---------- */
+.recognition{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:28px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);
+}
+.recognition span:nth-child(odd){color:var(--text)}
+.recognition span:nth-child(even){color:var(--border-strong)}
 .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(max-width:760px){.work-grid{grid-template-columns:1fr}}
 .work-card{
@@ -290,6 +296,7 @@ section{padding:130px 0;scroll-margin-top:90px}
 .work-card .tt{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
 .work-card h3{font-size:21px;margin-top:18px;font-weight:700}
 .work-card p{color:var(--text-dim);font-size:14px;line-height:1.6;margin-top:12px}
+.case-metric{color:var(--accent) !important;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:-0.01em}
 .work-toggle{
   display:flex;align-items:center;gap:8px;margin-top:20px;background:none;border:none;color:var(--accent);
   font-size:13px;font-weight:600;cursor:pointer;padding:0;
@@ -659,10 +666,10 @@ function Hero(){
       </div>
 
       <div className="hero-tags">
-        <span>UX Strategy</span>
-        <span>Interface Design</span>
+        <span>AI Product Design</span>
+        <span>Multi-Agent UX</span>
         <span>Design Systems</span>
-        <span>Service Design</span>
+        <span>Healthcare &amp; Fintech</span>
       </div>
 
       <div className="hero-mark parallax-fast">
@@ -873,13 +880,95 @@ function Practice(){
   );
 }
 
-const WORK = [
+const CASE_STUDIES = [
+  {
+    co:"UnitedHealth Group", sector:"Healthcare · AI Agents",
+    t:"Wildfire AQI Care",
+    metric:"63 ER visits avoided · $1.28M averted · 5.7x ROI",
+    d:"An 8-agent orchestration platform for a national health insurer that watches wildfire air quality in real time and routes preventive care to at-risk members before a smoke event becomes an ER visit. Every autonomous action carries a human-override — built after the industry learned hard lessons about AI running without oversight.",
+    bullets:["8 AI agents across 3 autonomy tiers, humans win every tie","16,245 members monitored across 42 counties","63 ER visits avoided and $1.28M cost averted in a 30-day pilot"],
+  },
+  {
+    co:"UnitedHealth Group", sector:"Healthcare · Conversational AI",
+    t:"EOB AI Assistant",
+    metric:"30% drop in support calls · 10,000+ members reached",
+    d:"Explanation of Benefits statements are the single biggest source of confused, anxious support calls in health insurance. This assistant reads a member's actual EOB and answers \"why do I owe this?\" in plain language — with a guaranteed hand-off to a human the moment a question turns clinical.",
+    bullets:["10-month build, from stakeholder workshops to national launch","60%+ of prior support inquiries were EOB confusion","30% reduction in EOB-related support contact, NPS 50+"],
+  },
+  {
+    co:"HDFC Bank", sector:"Fintech · Consumer Banking",
+    t:"NextGen Money Transfer",
+    metric:"40% lift in successful transactions · 70M+ users",
+    d:"Solo redesign of the money-transfer flow inside HDFC Bank's NextGen digital banking platform, serving over 70 million active users in India. A teardown of the legacy flow — and of ICICI's competing product — showed the same task taking five screens; the redesign gets it done in two.",
+    bullets:["70M+ active users on the underlying banking platform","5 epics and 80+ features delivered end to end, solo","Competitive teardown of the incumbent flow informed every screen"],
+  },
+  {
+    co:"Verizon", sector:"Telecom · Operations",
+    t:"Switch Fallout Resolution",
+    metric:"71% of operator time was going to manual fallout tracking",
+    d:"Network specialists were spending most of their day hand-tracking failed order activations in spreadsheets and sticky notes. A redesigned operations dashboard brought real-time status, prioritization, and root-cause context into one view for a 10-person specialist team.",
+    bullets:["10 specialists studied, handling 142 orders/day each","Replaced personal Excel sheets and sticky-note tracking with one shared view","Built from a baseline frustration score of 7.7/10"],
+  },
+  {
+    co:"Backbase", sector:"Design Systems",
+    t:"Modular Design System",
+    metric:"60% faster design delivery · 80% fewer sprint blockers",
+    d:"A modular design system spanning two visual modes across three platforms, built to let a small design team keep pace with a fast-moving banking product roadmap. Recognized with Backbase's own Excellence in Customer Engagement award.",
+    bullets:["2 themes, 3 platforms, one component library","Sprint blockers caused by design dependency cut by 80%+","Winner — Best Intuitive UI/UX Experience at Scale, Backbase 2025"],
+  },
+];
+
+function CaseCard({c}){
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={"work-card"+(open?" open":"")} onClick={()=>setOpen(o=>!o)}>
+      <div className="tt"><span>{c.co}</span><span>{c.sector}</span></div>
+      <h3>{c.t}</h3>
+      <p className="case-metric">{c.metric}</p>
+      <p>{c.d}</p>
+      <button className="work-toggle" onClick={(e)=>{e.stopPropagation(); setOpen(o=>!o);}} aria-expanded={open}>
+        {open ? "Hide the numbers" : "See the numbers"}
+        <span className="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div className="work-detail" style={{maxHeight: open ? '220px' : '0px'}}>
+        <ul>{c.bullets.map(g=>(<li key={g}>{g}</li>))}</ul>
+      </div>
+    </div>
+  );
+}
+function Work(){
+  return (
+    <section id="work">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">Selected work</span>
+          <h2>Real projects, real numbers.</h2>
+          <p>Five engagements across healthcare, fintech, and telecom — click a card for the detail behind the headline metric.</p>
+        </div>
+        <div className="recognition reveal">
+          <span>Backbase Excellence Award, 2025</span>
+          <span>·</span>
+          <span>Top 50 Mentor, ADPList</span>
+          <span>·</span>
+          <span>Published, UX Collective</span>
+          <span>·</span>
+          <span>MSc HCI, Acharya Nagarjuna University</span>
+        </div>
+        <div className="work-grid reveal">
+          {CASE_STUDIES.map(c=>(<CaseCard c={c} key={c.t}/>))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const FORMATS = [
   {f:"04–08 wks", t:"Product Design Sprint", d:"Early-stage founders needing a testable, investor-ready UI from a rough concept.", get:["Working prototype in Figma, tested with 5 users","Investor-ready screens for your next pitch","A prioritized backlog for engineering"]},
   {f:"08–16 wks", t:"Design System Build", d:"Scaling teams that need a shared component language before their next hire lands.", get:["Token library — color, type, spacing, radius","Component set in Figma + code (React)","Documentation your next hire can self-serve"]},
   {f:"Ongoing", t:"Embedded UX Partner", d:"A senior designer inside your team, part-time, for as long as the roadmap needs one.", get:["Weekly design capacity, no ramp-up per sprint","Direct Slack access, same senior person throughout","Cancel or pause with two weeks' notice"]},
   {f:"02–04 wks", t:"UX Audit & Roadmap", d:"A sharp, prioritized fix-list for a live product losing users to friction.", get:["Full flow-by-flow usability audit","Ranked fix list by effort vs. impact","A 90-minute walkthrough with your team"]},
 ];
-function WorkCard({w}){
+function FormatCard({w}){
   const [open, setOpen] = useState(false);
   return (
     <div className={"work-card"+(open?" open":"")} onClick={()=>setOpen(o=>!o)}>
@@ -896,9 +985,9 @@ function WorkCard({w}){
     </div>
   );
 }
-function Work(){
+function Formats(){
   return (
-    <section id="work">
+    <section>
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Engagement formats</span>
@@ -906,7 +995,7 @@ function Work(){
           <p>Illustrative starting points — click a card for what's included. Actual scope gets set with you in the first working session.</p>
         </div>
         <div className="work-grid reveal">
-          {WORK.map(w=>(<WorkCard w={w} key={w.t}/>))}
+          {FORMATS.map(w=>(<FormatCard w={w} key={w.t}/>))}
         </div>
       </div>
     </section>
@@ -1208,6 +1297,7 @@ function App(){
         <Bento/>
         <Practice/>
         <Work/>
+        <Formats/>
         <Process/>
         <Contact/>
       </main>
