@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<title>Services — Xperience Studios</title>
+<link rel="stylesheet" href="assets/site.css">
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script type="text/babel" src="assets/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+
+const DISCIPLINES = [
+  {n:"01", t:"UX Research & Product Strategy", d:"Every engagement opens with Atomic UX Research — experiments, facts, insights, and opportunities tracked as four distinct layers instead of one messy findings doc. Stakeholder interviews, support-log analysis, and competitive teardowns all feed the same framework, so a decision three weeks in can still be traced back to the finding that drove it.", tags:["Atomic UX Research","Stakeholder workshops","Competitive teardowns","How-Might-We sessions"]},
+  {n:"02", t:"Interface & Product Design", d:"High-fidelity UI for web, mobile, and conversational surfaces, built in components from the first screen — not retrofitted into a system later. For AI products, this includes designing the conversation itself: gold-standard response templates, guardrails, and escalation rules alongside the UI that surfaces them.", tags:["Web & mobile UI","Conversational flow design","AI guardrails & escalation","Rapid prototyping"]},
+  {n:"03", t:"Design Systems", d:"Token-based systems — color, type, spacing, radius — built to hold across multiple platforms and themes at once, not just one app. Documented well enough that an engineering team can self-serve components without pulling a designer into every ticket.", tags:["Design tokens","Multi-platform components","Documentation","Dev handoff"]},
+  {n:"04", t:"Human-in-the-Loop AI Design", d:"For products where an AI agent acts on someone's behalf — a claim, a care decision, a transfer — this means designing the override before the automation: confidence scores, visible reasoning, and a human who can always step in before harm reaches a user.", tags:["Multi-agent UX","Autonomy tiers","Override patterns","Trust & safety UX"]},
+];
+
+const STAGES = [
+  {n:"01", t:"Diagnose", happens:"Stakeholder interviews, support-log and analytics review, a working session to name the real problem.", get:"A one-page problem statement everyone on the team actually agrees on."},
+  {n:"02", t:"Frame", happens:"User flows, information architecture, and — for AI products — the conversational logic and guardrails, mapped before any screen exists.", get:"A strategy doc and flow map that becomes the spec engineering scopes against."},
+  {n:"03", t:"Design", happens:"High-fidelity UI in weekly reviews, in your files, with comments open the whole time.", get:"Screens you've already seen move, not a reveal at the end of a sprint."},
+  {n:"04", t:"Validate", happens:"Usability testing with real users, or a phased rollout with daily monitoring for higher-stakes launches.", get:"Evidence the design works before production code depends on it."},
+  {n:"05", t:"Handoff", happens:"Dev-ready files, documented components and tokens, a walkthrough with engineering.", get:"A system your team can extend without pulling a designer into every ticket."},
+];
+
+function App(){
+  useReveal();
+  return (
+    <React.Fragment>
+      <Nav/>
+      <main>
+        <section className="page-hero">
+          <div className="wrap">
+            <span className="kicker">Services</span>
+            <h1><TypeText text="Four disciplines. One person accountable for all of them."/></h1>
+            <p className="lede">No account layer, no bench of juniors — every discipline below runs through the same senior designer who's shipped it before, on products where getting it wrong was expensive.</p>
+            <div className="page-cta">
+              <StartProjectButton className="pill">Start a project {ARROW}</StartProjectButton>
+              <a className="pill-outline" href="about.html">About the practice</a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="section-head reveal">
+              <span className="kicker">What's covered</span>
+              <h2><TypeText text="Not a menu — a repeatable practice."/></h2>
+              <p>Every engagement draws from the same four disciplines, in different proportions depending on what's actually broken.</p>
+            </div>
+            <div className="svc-list reveal">
+              {DISCIPLINES.map(s=>(
+                <div className="svc" key={s.n}>
+                  <span className="num">{s.n}</span>
+                  <h3>{s.t}</h3>
+                  <div>
+                    <p>{s.d}</p>
+                    <div className="tags">{s.tags.map(tg=><span key={tg}>{tg}</span>)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="section-head reveal">
+              <span className="kicker">Process</span>
+              <h2><TypeText text="Five stages, same sequence every time."/></h2>
+              <p>Compressed into two weeks for a sprint, stretched over months for a platform build — the order doesn't change.</p>
+            </div>
+            <div className="format-table reveal">
+              <div className="format-row format-head">
+                <span>Stage</span>
+                <span>What happens</span>
+                <span>What you get</span>
+              </div>
+              {STAGES.map(s=>(
+                <div className="format-row" key={s.n} style={{gridTemplateColumns:'0.5fr 1.6fr 1.6fr'}}>
+                  <span className="ft-name mono" style={{color:'var(--accent)'}}>{s.n} {s.t}</span>
+                  <span className="ft-best">{s.happens}</span>
+                  <span className="ft-deliver">{s.get}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="contact-card reveal reveal-zoomout">
+              <span className="kicker">Start a project</span>
+              <h2>Which discipline do you need first?</h2>
+              <p className="sub">Most engagements start with just one. Tell me what's broken and we'll figure out the rest together.</p>
+              <div className="contact-actions">
+                <StartProjectButton className="pill">Start a project {ARROW}</StartProjectButton>
+              </div>
+            </div>
+          </div>
+          <Footer/>
+        </section>
+      </main>
+      <ProjectModal/>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>

@@ -1,0 +1,127 @@
+<meta charset="utf-8">
+<title>About — Xperience Studios</title>
+<link rel="stylesheet" href="assets/site.css">
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script type="text/babel" src="assets/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+
+const HIGHLIGHTS = [
+  {i:"UHG", c:"#002677", co:"UnitedHealth Group", t:"AI product design for two shipped healthcare products", d:"Wildfire AQI Care, an 8-agent care-orchestration platform, and an EOB AI Assistant that cut support calls 30%. Both went out with human-override built in, not bolted on."},
+  {i:"HDFC", c:"#004C8F", co:"HDFC Bank", t:"Solo redesign of a money-transfer flow used by 70M+ people", d:"Owned the flow end to end — teardown, research, five epics, eighty-plus features — with no second designer to hand work off to."},
+  {i:"VZ", c:"#EE0000", co:"Verizon", t:"Rebuilt an operations workflow run on spreadsheets", d:"Ten network specialists were tracking failed activations by hand. Replaced it with one real-time dashboard built from their actual workflow, not an assumed one."},
+  {i:"BB", c:"#5B3FE0", co:"Backbase", t:"A modular design system recognized industry-wide", d:"Two themes, three platforms, one component library — cut design delivery time 60% and won Backbase's own Excellence in Customer Engagement award."},
+];
+
+const VALUES = [
+  {n:"01", t:"Research before pixels", d:"Every engagement opens with Atomic UX Research — experiments, facts, insights, opportunities, in that order — so the first screen is already pointed at a real problem."},
+  {n:"02", t:"Humans stay in the loop", d:"AI that acts on its own without a visible override isn't a feature, it's a liability. Every autonomous system ships with a human able to see why, and step in."},
+  {n:"03", t:"Systems outlive projects", d:"A one-off screen is a favor. Tokens, components, and documentation are what's still working after the engagement ends."},
+  {n:"04", t:"Speed is a form of respect", d:"Slow design isn't more thorough, it's just slow. A tested prototype in two weeks beats a polished one in two months that nobody's validated yet."},
+];
+
+function App(){
+  useReveal();
+  return (
+    <React.Fragment>
+      <Nav/>
+      <main>
+        <section className="page-hero">
+          <div className="wrap">
+            <span className="kicker">About</span>
+            <h1><TypeText text="One senior designer. No bench, no hand-offs."/></h1>
+            <p className="lede">Xperience Studios is Bharath Kumar Salla's design practice — seven years designing AI products, banking flows, and operations tools for organizations that don't get to be wrong in public.</p>
+            <div className="page-cta">
+              <StartProjectButton className="pill">Start a project {ARROW}</StartProjectButton>
+              <a className="pill-outline" href="index.html#work">See the work</a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="section-head reveal">
+              <span className="kicker">The short version</span>
+              <h2><TypeText text="Four industries, one person doing the work."/></h2>
+              <p>An MSc in Human-Computer Interaction, then seven years where the pressure kept changing shape — a health insurer that couldn't afford to get AI wrong, a bank moving money for 70 million people, a telecom team drowning in manual tracking, a platform that needed one system to hold across three. Same person in the room for all of it, start to handoff.</p>
+            </div>
+            <div className="info-grid reveal">
+              {HIGHLIGHTS.map(h=>(
+                <div className="info-card" key={h.co}>
+                  <div className="case-brand" style={{marginBottom:'18px'}}>
+                    <span className="case-badge" style={{background:h.c}}>{h.i}</span>
+                    <span style={{fontFamily:"'Sora',sans-serif",fontWeight:700,fontSize:'15px'}}>{h.co}</span>
+                  </div>
+                  <h3>{h.t}</h3>
+                  <p>{h.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="section-head reveal">
+              <span className="kicker">How I work</span>
+              <h2><TypeText text="What I actually believe."/></h2>
+              <p>Not a mission statement — the four things that show up the same way in every engagement, healthcare or fintech, agent or interface.</p>
+            </div>
+            <div className="info-grid reveal">
+              {VALUES.map(v=>(
+                <div className="info-card" key={v.n}>
+                  <span className="kicker" style={{marginBottom:'12px'}}>{v.n}</span>
+                  <h3>{v.t}</h3>
+                  <p>{v.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="section-head reveal">
+              <span className="kicker">Recognition</span>
+              <h2><TypeText text="A few things worth naming."/></h2>
+            </div>
+            <div className="recognition reveal" style={{marginBottom:0}}>
+              <span>Backbase Excellence Award, 2025</span>
+              <span>·</span>
+              <span>Top 50 Mentor, ADPList</span>
+              <span>·</span>
+              <span>Published, UX Collective</span>
+              <span>·</span>
+              <span>MSc HCI, Acharya Nagarjuna University</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="contact-card reveal reveal-zoomout">
+              <span className="kicker">Start a project</span>
+              <h2>Tell me what's not working.</h2>
+              <p className="sub">No account manager, no proposal deck — you talk to the person who'll actually design it.</p>
+              <div className="contact-actions">
+                <StartProjectButton className="pill">Start a project {ARROW}</StartProjectButton>
+              </div>
+            </div>
+          </div>
+          <Footer/>
+        </section>
+      </main>
+      <ProjectModal/>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>

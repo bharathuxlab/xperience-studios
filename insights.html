@@ -1,0 +1,72 @@
+<meta charset="utf-8">
+<title>Insights — Xperience Studios</title>
+<link rel="stylesheet" href="assets/site.css">
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script type="text/babel" src="assets/shared.js"></script>
+
+<script type="text/babel" data-presets="react">
+
+const NOTES = [
+  {tag:"AI Product Design", t:"The override is the feature", d:"Everyone designing AI agents obsesses over the automation and treats the override as an afterthought — a small \"undo\" link bolted on at the end. Backwards. On Wildfire AQI Care, the override pattern (confidence score, visible reasoning, one-tap approve or override) was designed before a single autonomous action was. Trust in an AI system isn't built by the agent being right. It's built by the human being able to tell, instantly, when it might be wrong."},
+  {tag:"Research", t:"Research theatre vs. research that moves things", d:"A lot of \"user research\" is theatre — interviews that confirm what the team already believed, filed away in a doc nobody opens again. Atomic UX Research works because it forces every finding into one of four buckets — experiment, fact, insight, opportunity — and an insight that doesn't produce an opportunity gets thrown out. If a research finding didn't change a decision, it wasn't research. It was decoration for the report."},
+  {tag:"Fintech UX", t:"What a five-screen flow teaches you about a two-screen one", d:"The instinct when a flow feels bloated is to start deleting steps. That's how you break compliance requirements a bank actually needs. The HDFC NextGen teardown worked because it separated *required friction* (RBI-mandated confirmation steps) from *accidental friction* (redundant screens nobody asked for). Cutting five screens to two didn't mean removing rules — it meant finding which of the five weren't rules at all."},
+  {tag:"Design Systems", t:"Design systems fail at the token layer, not the component layer", d:"Most design system post-mortems blame component sprawl — too many button variants, inconsistent spacing. The real failure usually happened earlier: tokens that were named for how they looked (\"blue-500\") instead of what they meant (\"accent.primary\"). A system built on the second kind survives a rebrand. One built on the first doesn't survive a dark mode."},
+  {tag:"Healthcare AI", t:"The support call is the real spec", d:"Nobody writes a better problem statement than a support team's call logs. The EOB AI Assistant's entire conversational flow — every guardrail, every escalation rule — was mapped from the same five questions members asked a human, over and over, for years. The product didn't need a creative breakthrough. It needed someone to actually read the transcripts."},
+];
+
+function App(){
+  useReveal();
+  return (
+    <React.Fragment>
+      <Nav/>
+      <main>
+        <section className="page-hero">
+          <div className="wrap">
+            <span className="kicker">Insights</span>
+            <h1><TypeText text="Field notes, not a content calendar."/></h1>
+            <p className="lede">Short, opinionated takes from inside actual engagements — not SEO bait. Updated whenever something from a live project is worth writing down.</p>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="work-grid reveal">
+              {NOTES.map(n=>(
+                <div className="info-card" key={n.t}>
+                  <span className="kicker" style={{marginBottom:'14px'}}>{n.tag}</span>
+                  <h3>{n.t}</h3>
+                  <p>{n.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap">
+            <div className="contact-card reveal reveal-zoomout">
+              <span className="kicker">Have a project in mind?</span>
+              <h2>Let's talk about the real thing.</h2>
+              <p className="sub">Notes are free. The actual work still starts with a conversation.</p>
+              <div className="contact-actions">
+                <StartProjectButton className="pill">Start a project {ARROW}</StartProjectButton>
+              </div>
+            </div>
+          </div>
+          <Footer/>
+        </section>
+      </main>
+      <ProjectModal/>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
