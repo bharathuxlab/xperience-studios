@@ -98,6 +98,11 @@ section{padding:130px 0;scroll-margin-top:90px}
   opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .15s forwards;
 }
 .hero-mark .word sup{font-size:0.32em;font-weight:600;letter-spacing:0;margin-left:2px;top:-0.5em}
+.hero-mark .word .hl-mark{
+  background:var(--accent);color:var(--void);
+  padding:0.05em 0.03em 0.09em;margin:0 -0.03em;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
 .hero-mark .word2{
   font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-0.02em;
   font-size:clamp(26px,4vw,54px);color:var(--text-dim);margin-top:4px;
@@ -736,7 +741,7 @@ function Hero(){
       </div>
 
       <div className="hero-mark parallax-fast">
-        <div className="word">Xperience<sup>®</sup></div>
+        <div className="word"><span className="hl-mark">Xperi</span>ence<sup>®</sup></div>
         <div className="word2">Studios</div>
       </div>
 
