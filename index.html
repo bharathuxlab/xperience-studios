@@ -80,6 +80,20 @@ section{padding:130px 0;scroll-margin-top:90px}
   position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
   padding:150px 28px 40px;overflow:hidden;isolation:isolate;background:#050506;
 }
+.hero-portrait{
+  position:absolute;right:0;top:0;bottom:0;width:min(46%,560px);z-index:0;overflow:hidden;pointer-events:none;
+}
+.hero-portrait img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+  filter:grayscale(1) contrast(1.12) brightness(0.82);
+  mask-image:linear-gradient(to left, black 45%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to left, black 45%, transparent 100%);
+}
+.hero-portrait::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(5,5,6,0.35) 0%, transparent 30%, transparent 55%, #050506 96%);
+}
+@media(max-width:820px){.hero-portrait{width:100%;opacity:0.5}}
 .hero-vignette{
   position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
@@ -115,7 +129,7 @@ section{padding:130px 0;scroll-margin-top:90px}
   display:flex;flex-direction:column;gap:9px;
   opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .45s forwards;
 }
-.hero-tags span{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;color:var(--text)}
+.hero-tags span{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;color:var(--text);text-shadow:0 1px 8px rgba(0,0,0,0.6)}
 @media(max-width:720px){.hero-tags{display:none}}
 
 .hero-foot{
@@ -231,6 +245,14 @@ section{padding:130px 0;scroll-margin-top:90px}
 /* ---------- REVEAL (scroll-scrubbed via GSAP, see useReveal) ---------- */
 .reveal{opacity:0;will-change:transform,opacity}
 .reveal.in{opacity:1}
+
+/* ---------- TYPEWRITER TEXT ---------- */
+.type-caret{
+  display:inline-block;width:0.5ch;height:0.85em;background:var(--accent);margin-left:2px;
+  vertical-align:-0.08em;animation:caretBlink 0.9s steps(1) infinite;
+}
+.type-caret.done{animation:none;opacity:0}
+@keyframes caretBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
 
 /* ---------- SECTION HEAD ---------- */
 .section-head{margin-bottom:52px;max-width:640px}
@@ -480,6 +502,38 @@ footer{padding:36px 0}
 const { useEffect, useRef, useState } = React;
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+function TypeText({text}){
+  const ref = useRef(null);
+  const [display, setDisplay] = useState(prefersReduced ? text : '');
+  const startedRef = useRef(false);
+  useEffect(()=>{
+    if(prefersReduced) return;
+    const el = ref.current;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting && !startedRef.current){
+          startedRef.current = true;
+          let i = 0;
+          const id = setInterval(()=>{
+            i++;
+            setDisplay(text.slice(0, i));
+            if(i >= text.length) clearInterval(id);
+          }, 26);
+        }
+      });
+    }, {threshold:0.4});
+    io.observe(el);
+    return ()=>io.disconnect();
+  }, [text]);
+  const done = display.length >= text.length;
+  return (
+    <span ref={ref} className="type-text">
+      {display}
+      <span className={"type-caret"+(done?" done":"")}></span>
+    </span>
+  );
+}
+
 function useReveal(){
   useEffect(()=>{
     const els = document.querySelectorAll('.reveal');
@@ -725,6 +779,9 @@ function DemoCard(){
 function Hero(){
   return (
     <section className="hero" id="hero">
+      <div className="hero-portrait">
+        <img src="assets/speaker.jpg" alt="Bharath Kumar Salla speaking on a UX panel about UnitedHealth Group's platform rollout" loading="eager"/>
+      </div>
       <div className="hero-vignette"></div>
       <div className="hero-plus">
         <span style={{top:'28%',left:'8%'}}>+</span>
@@ -840,7 +897,7 @@ function Bento(){
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">How we work with you</span>
-          <h2>A studio that works inside your team, not around it.</h2>
+          <h2><TypeText text="A studio that works inside your team, not around it."/></h2>
           <p>No account layer between you and the work — you see it move in real time, in your own tools.</p>
         </div>
         <div className="bento">
@@ -930,7 +987,7 @@ function Practice(){
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">The full practice</span>
-          <h2>Not just a deck — a repeatable practice.</h2>
+          <h2><TypeText text="Not just a deck — a repeatable practice."/></h2>
           <p>Four disciplines that run under one roof, so nothing gets lost in a handoff between agencies.</p>
         </div>
         <div className="reveal">
@@ -1016,7 +1073,7 @@ function Work(){
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Selected work</span>
-          <h2>Real projects, real numbers.</h2>
+          <h2><TypeText text="Real projects, real numbers."/></h2>
           <p>Five engagements across healthcare, fintech, and telecom — click a card for the detail behind the headline metric.</p>
         </div>
         <div className="recognition reveal">
@@ -1048,7 +1105,7 @@ function Formats(){
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Engagement formats</span>
-          <h2>Four ways to start.</h2>
+          <h2><TypeText text="Four ways to start."/></h2>
           <p>Exact scope is set with you in the first working session — this is the shape each format usually takes.</p>
         </div>
         <div className="format-table reveal">
@@ -1089,7 +1146,7 @@ function Process(){
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Process</span>
-          <h2>Five stages, one thread.</h2>
+          <h2><TypeText text="Five stages, one thread."/></h2>
           <p>Compressed for a sprint, extended for a system build. Click a stage to see what it hands you.</p>
         </div>
         <div className="process-scroll reveal">
@@ -1285,7 +1342,7 @@ function Contact(){
       <div className="wrap">
         <div className="contact-card reveal reveal-zoomout">
           <span className="kicker">Start a project</span>
-          <h2>Let's design your next move.</h2>
+          <h2><TypeText text="Let's design your next move."/></h2>
           <p className="sub">Two taps, and we'll draft the email for you — no pitch deck required.</p>
 
           <div className="builder">
@@ -1359,7 +1416,7 @@ function DemoSection(){
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">How it starts</span>
-          <h2>Pulled from three real engagements below.</h2>
+          <h2><TypeText text="Pulled from three real engagements below."/></h2>
           <p>Pick one of the projects from "Selected work" — this is how each actually opened, before a single screen got designed.</p>
         </div>
         <DemoCard/>
