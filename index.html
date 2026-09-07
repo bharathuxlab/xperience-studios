@@ -126,6 +126,24 @@ section{padding:130px 0;scroll-margin-top:90px}
   opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .5s forwards;
 }
 
+/* ---------- BRAND MARQUEE ---------- */
+.brand-marquee{
+  display:flex;align-items:center;gap:28px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:22px 32px;background:var(--surface);
+}
+.bm-label{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);text-transform:uppercase;
+  letter-spacing:.08em;flex:none;white-space:nowrap;
+}
+.bm-track-wrap{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.bm-track{display:flex;gap:64px;width:max-content;animation:bmScroll 26s linear infinite}
+.bm-track span{
+  font-family:'Sora',sans-serif;font-weight:700;font-size:19px;color:var(--text-dim);white-space:nowrap;
+  letter-spacing:-0.01em;transition:color .25s ease;
+}
+.bm-track span:hover{color:var(--text)}
+@keyframes bmScroll{from{transform:translateX(0)}to{transform:translateX(-33.333%)}}
+
 /* ---------- DEMO CARD ---------- */
 .demo-wrap{margin-top:70px}
 .demo-card{
@@ -293,6 +311,12 @@ section{padding:130px 0;scroll-margin-top:90px}
 }
 .work-card:hover{border-color:var(--border-strong)}
 .work-card{cursor:pointer}
+.work-shot{
+  margin:-30px -30px 22px;aspect-ratio:16/10;overflow:hidden;background:var(--void);
+  border-bottom:1px solid var(--border);
+}
+.work-shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1);filter:saturate(0.9)}
+.work-card:hover .work-shot img{transform:scale(1.035)}
 .work-card .tt{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
 .work-card h3{font-size:21px;margin-top:18px;font-weight:700}
 .work-card p{color:var(--text-dim);font-size:14px;line-height:1.6;margin-top:12px}
@@ -307,6 +331,31 @@ section{padding:130px 0;scroll-margin-top:90px}
 .work-detail ul{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
 .work-detail li{list-style:none;font-size:13.5px;color:var(--text-dim);padding-left:20px;position:relative}
 .work-detail li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* ---------- FORMAT TABLE ---------- */
+.format-table{border:1px solid var(--border)}
+.format-row{
+  display:grid;grid-template-columns:1.1fr 0.8fr 1.6fr 1.6fr;gap:24px;
+  padding:22px 26px;border-bottom:1px solid var(--border);align-items:center;
+}
+.format-row:last-child{border-bottom:none}
+.format-head{
+  background:var(--surface);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.06em;padding:16px 26px;
+}
+.format-row:not(.format-head):hover{background:var(--surface)}
+.ft-name{font-weight:700;font-size:15px}
+.ft-dur.mono{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)}
+.ft-best, .ft-deliver{font-size:14px;color:var(--text-dim);line-height:1.5}
+@media(max-width:820px){
+  .format-row{grid-template-columns:1fr;gap:6px;padding:20px}
+  .format-head{display:none}
+  .ft-name{font-size:17px}
+  .ft-dur.mono{order:-1}
+  .ft-best::before{content:"Best for — ";color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase}
+  .ft-deliver::before{content:"Delivers — ";color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase}
+}
+.format-cta{margin-top:28px;display:flex;justify-content:center}
 
 /* ---------- PROCESS ROW ---------- */
 .process-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity}
@@ -497,28 +546,28 @@ function Nav(){
 
 const DEMOS = [
   {
-    chip:"Onboarding audit",
-    client:"Northwind Retail", project:"Signup → activation flow",
+    chip:"Wildfire AQI Care",
+    client:"UnitedHealth Group", project:"AI care-agent orchestration",
     welcome:"Hi, welcome to Xperience Studios. What's going on with the product?",
-    you:"Our signup-to-activation drop-off jumped to 61% last month.",
-    us:<span><b>First move:</b> a 5-user hallway test on the current flow this week, alongside a funnel breakdown by step — we'll know if it's copy, friction, or trust before we touch a single screen.</span>,
-    services:["UX Research","Funnel Analysis","Usability Testing"],
+    you:"Members exposed to wildfire smoke aren't getting care until they're already in the ER — and our team can't watch 42 counties by hand.",
+    us:<span><b>First move:</b> Atomic UX Research across care-ops workflows and support-call logs to find the real decision points, then a How-Might-We workshop with engineers to scope what could safely run autonomously — before a single agent got designed.</span>,
+    services:["UX Research","Multi-Agent UX","Human-in-the-Loop Design"],
   },
   {
-    chip:"Design system",
-    client:"Verlane Health", project:"Cross-platform component library",
+    chip:"EOB AI Assistant",
+    client:"UnitedHealth Group", project:"Conversational AI for benefits",
     welcome:"Hi, welcome to Xperience Studios. What's going on with the product?",
-    you:"We have three product surfaces and zero shared components.",
-    us:<span><b>First move:</b> a token audit across all three — color, type, spacing — then one component library all three teams pull from, starting with buttons, forms, and cards.</span>,
-    services:["Design Systems","Component Libraries","Documentation"],
+    you:"Members don't understand their EOB, so they call support with the same five questions — or paste their health data into ChatGPT, which we can't allow.",
+    us:<span><b>First move:</b> personas built from real support-call transcripts, then a full conversational-flow map covering every claim scenario before a screen got drawn — so the AI's guardrails were set before its UI was.</span>,
+    services:["Conversational AI","AI Guardrails","Design Systems"],
   },
   {
-    chip:"Checkout redesign",
-    client:"Boltframe", project:"Checkout conversion",
+    chip:"NextGen Money Transfer",
+    client:"HDFC Bank", project:"Money-transfer redesign",
     welcome:"Hi, welcome to Xperience Studios. What's going on with the product?",
-    you:"Cart-to-purchase conversion has been flat for two quarters.",
-    us:<span><b>First move:</b> session recordings on the current checkout plus a competitive teardown, then two prototype directions tested head-to-head with real traffic.</span>,
-    services:["Interface Design","Service Design","A/B Testing"],
+    you:"Our transfer flow takes five screens to do what competitors do in two, and we can't remove anything RBI already requires.",
+    us:<span><b>First move:</b> a teardown of our own flow and ICICI's, mapped against the actual RBI constraints — so the fix was obvious before redesign work started.</span>,
+    services:["Interface Design","Competitive Teardown","Fintech UX"],
   },
 ];
 
@@ -597,7 +646,7 @@ function DemoCard(){
         <div className="demo-inner">
           <div className="demo-chrome">
             <span className="dotc"></span><span className="dotc"></span><span className="dotc"></span>
-            <span className="label">How it starts — a scripted example, not a live chat</span>
+            <span className="label">Modeled on three real engagements, not a live chat</span>
           </div>
           <div className="demo-body">
             <div className="demo-chips">
@@ -882,35 +931,40 @@ function Practice(){
 
 const CASE_STUDIES = [
   {
-    co:"UnitedHealth Group", sector:"Healthcare · AI Agents",
+    co:"UnitedHealth Group", sector:"Healthcare · AI Agents", img:"assets/work/wildfire.jpg",
+    imgAlt:"Wildfire AQI Care operations dashboard — outcomes tab showing 63 ER visits avoided and $8.4M cost saved YTD",
     t:"Wildfire AQI Care",
     metric:"63 ER visits avoided · $1.28M averted · 5.7x ROI",
     d:"An 8-agent orchestration platform for a national health insurer that watches wildfire air quality in real time and routes preventive care to at-risk members before a smoke event becomes an ER visit. Every autonomous action carries a human-override — built after the industry learned hard lessons about AI running without oversight.",
     bullets:["8 AI agents across 3 autonomy tiers, humans win every tie","16,245 members monitored across 42 counties","63 ER visits avoided and $1.28M cost averted in a 30-day pilot"],
   },
   {
-    co:"UnitedHealth Group", sector:"Healthcare · Conversational AI",
+    co:"UnitedHealth Group", sector:"Healthcare · Conversational AI", img:"assets/work/eob.jpg",
+    imgAlt:"EOB AI Assistant — iPhone screens showing the Explanation of Benefits document, AI-generated insights, and an Ask AI chat answering deductible questions",
     t:"EOB AI Assistant",
     metric:"30% drop in support calls · 10,000+ members reached",
     d:"Explanation of Benefits statements are the single biggest source of confused, anxious support calls in health insurance. This assistant reads a member's actual EOB and answers \"why do I owe this?\" in plain language — with a guaranteed hand-off to a human the moment a question turns clinical.",
     bullets:["10-month build, from stakeholder workshops to national launch","60%+ of prior support inquiries were EOB confusion","30% reduction in EOB-related support contact, NPS 50+"],
   },
   {
-    co:"HDFC Bank", sector:"Fintech · Consumer Banking",
+    co:"HDFC Bank", sector:"Fintech · Consumer Banking", img:"assets/work/hdfc.jpg",
+    imgAlt:"HDFC Bank NextGen NetBanking login screen, the platform the money-transfer flow redesign shipped into",
     t:"NextGen Money Transfer",
     metric:"40% lift in successful transactions · 70M+ users",
     d:"Solo redesign of the money-transfer flow inside HDFC Bank's NextGen digital banking platform, serving over 70 million active users in India. A teardown of the legacy flow — and of ICICI's competing product — showed the same task taking five screens; the redesign gets it done in two.",
     bullets:["70M+ active users on the underlying banking platform","5 epics and 80+ features delivered end to end, solo","Competitive teardown of the incumbent flow informed every screen"],
   },
   {
-    co:"Verizon", sector:"Telecom · Operations",
+    co:"Verizon", sector:"Telecom · Operations", img:"assets/work/verizon.jpg",
+    imgAlt:"Verizon network line status and operations dashboard, showing completed, pending, and error counts by region",
     t:"Switch Fallout Resolution",
     metric:"71% of operator time was going to manual fallout tracking",
     d:"Network specialists were spending most of their day hand-tracking failed order activations in spreadsheets and sticky notes. A redesigned operations dashboard brought real-time status, prioritization, and root-cause context into one view for a 10-person specialist team.",
     bullets:["10 specialists studied, handling 142 orders/day each","Replaced personal Excel sheets and sticky-note tracking with one shared view","Built from a baseline frustration score of 7.7/10"],
   },
   {
-    co:"Backbase", sector:"Design Systems",
+    co:"Backbase", sector:"Design Systems", img:"assets/work/backbase.jpg",
+    imgAlt:"Backbase modular design system — a Move Money flow shown twice, in light and dark mode, from the same component library",
     t:"Modular Design System",
     metric:"60% faster design delivery · 80% fewer sprint blockers",
     d:"A modular design system spanning two visual modes across three platforms, built to let a small design team keep pace with a fast-moving banking product roadmap. Recognized with Backbase's own Excellence in Customer Engagement award.",
@@ -922,6 +976,7 @@ function CaseCard({c}){
   const [open, setOpen] = useState(false);
   return (
     <div className={"work-card"+(open?" open":"")} onClick={()=>setOpen(o=>!o)}>
+      <div className="work-shot"><img src={c.img} alt={c.imgAlt} loading="lazy"/></div>
       <div className="tt"><span>{c.co}</span><span>{c.sector}</span></div>
       <h3>{c.t}</h3>
       <p className="case-metric">{c.metric}</p>
@@ -963,39 +1018,38 @@ function Work(){
 }
 
 const FORMATS = [
-  {f:"04–08 wks", t:"Product Design Sprint", d:"Early-stage founders needing a testable, investor-ready UI from a rough concept.", get:["Working prototype in Figma, tested with 5 users","Investor-ready screens for your next pitch","A prioritized backlog for engineering"]},
-  {f:"08–16 wks", t:"Design System Build", d:"Scaling teams that need a shared component language before their next hire lands.", get:["Token library — color, type, spacing, radius","Component set in Figma + code (React)","Documentation your next hire can self-serve"]},
-  {f:"Ongoing", t:"Embedded UX Partner", d:"A senior designer inside your team, part-time, for as long as the roadmap needs one.", get:["Weekly design capacity, no ramp-up per sprint","Direct Slack access, same senior person throughout","Cancel or pause with two weeks' notice"]},
-  {f:"02–04 wks", t:"UX Audit & Roadmap", d:"A sharp, prioritized fix-list for a live product losing users to friction.", get:["Full flow-by-flow usability audit","Ranked fix list by effort vs. impact","A 90-minute walkthrough with your team"]},
+  {t:"Product Design Sprint", f:"4–8 weeks", best:"Founders validating a concept before a fundraise or a build commitment.", deliver:"A tested Figma prototype and an engineering-ready backlog."},
+  {t:"Design System Build", f:"8–16 weeks", best:"Teams shipping across multiple surfaces without a shared component language.", deliver:"A token library and component set, in Figma and code."},
+  {t:"Embedded UX Partner", f:"Ongoing, part-time", best:"Teams that need senior design capacity without a full-time hire.", deliver:"Weekly design output, one consistent point of contact."},
+  {t:"UX Audit & Roadmap", f:"2–4 weeks", best:"A live product losing users to friction it can't diagnose internally.", deliver:"A flow-by-flow audit ranked by effort vs. impact."},
 ];
-function FormatCard({w}){
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={"work-card"+(open?" open":"")} onClick={()=>setOpen(o=>!o)}>
-      <div className="tt"><span>Format</span><span>{w.f}</span></div>
-      <h3>{w.t}</h3>
-      <p>{w.d}</p>
-      <button className="work-toggle" onClick={(e)=>{e.stopPropagation(); setOpen(o=>!o);}} aria-expanded={open}>
-        {open ? "Hide what's included" : "What's included"}
-        <span className="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div className="work-detail" style={{maxHeight: open ? '220px' : '0px'}}>
-        <ul>{w.get.map(g=>(<li key={g}>{g}</li>))}</ul>
-      </div>
-    </div>
-  );
-}
 function Formats(){
   return (
     <section>
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Engagement formats</span>
-          <h2>How work with us takes shape.</h2>
-          <p>Illustrative starting points — click a card for what's included. Actual scope gets set with you in the first working session.</p>
+          <h2>Four ways to start.</h2>
+          <p>Exact scope is set with you in the first working session — this is the shape each format usually takes.</p>
         </div>
-        <div className="work-grid reveal">
-          {FORMATS.map(w=>(<FormatCard w={w} key={w.t}/>))}
+        <div className="format-table reveal">
+          <div className="format-row format-head">
+            <span>Engagement</span>
+            <span>Duration</span>
+            <span>Best for</span>
+            <span>Key deliverable</span>
+          </div>
+          {FORMATS.map(f=>(
+            <div className="format-row" key={f.t}>
+              <span className="ft-name">{f.t}</span>
+              <span className="ft-dur mono">{f.f}</span>
+              <span className="ft-best">{f.best}</span>
+              <span className="ft-deliver">{f.deliver}</span>
+            </div>
+          ))}
+        </div>
+        <div className="format-cta">
+          <StartProjectButton className="pill-outline">Talk through which one fits {ARROW}</StartProjectButton>
         </div>
       </div>
     </section>
@@ -1255,14 +1309,29 @@ function Contact(){
   );
 }
 
+const BRANDS = ["UnitedHealth Group","HDFC Bank","Verizon","Backbase"];
+function BrandMarquee(){
+  const row = [...BRANDS, ...BRANDS, ...BRANDS];
+  return (
+    <div className="brand-marquee">
+      <span className="bm-label">Shipped for</span>
+      <div className="bm-track-wrap">
+        <div className="bm-track">
+          {row.map((b,i)=>(<span key={i}>{b}</span>))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function DemoSection(){
   return (
     <section style={{paddingTop:'90px', paddingBottom:'40px'}}>
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">How it starts</span>
-          <h2>A real kickoff message, not a sales call.</h2>
-          <p>Pick a situation. This is genuinely how we'd respond in the first exchange.</p>
+          <h2>Pulled from three real engagements below.</h2>
+          <p>Pick one of the projects from "Selected work" — this is how each actually opened, before a single screen got designed.</p>
         </div>
         <DemoCard/>
       </div>
@@ -1293,6 +1362,7 @@ function App(){
       <Nav/>
       <main>
         <Hero/>
+        <BrandMarquee/>
         <DemoSection/>
         <Bento/>
         <Practice/>
