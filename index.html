@@ -126,6 +126,7 @@ section{padding:130px 0;scroll-margin-top:90px}
 .hero-card{
   background:var(--text);color:var(--void);border-radius:0;padding:16px 18px;
   display:flex;align-items:center;gap:14px;min-width:270px;
+  border:none;cursor:pointer;text-align:left;font:inherit;
 }
 .hero-card .av{
   width:46px;height:46px;border-radius:50%;background:var(--void);color:var(--text);flex:none;
@@ -358,6 +359,52 @@ section{padding:130px 0;scroll-margin-top:90px}
 .builder-chips{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
 @media(max-width:600px){.builder-chips{justify-content:flex-start}}
 
+/* ---------- PROJECT MODAL ---------- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);
+  display:flex;align-items:flex-start;justify-content:center;padding:80px 20px 40px;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;overflow-y:auto;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-panel{
+  width:min(640px,100%);background:var(--surface);border:1px solid var(--border-strong);
+  padding:44px 40px;position:relative;
+  transform:translateY(16px) scale(0.98);transition:transform .35s cubic-bezier(.16,1,.3,1);
+}
+.modal-overlay.open .modal-panel{transform:translateY(0) scale(1)}
+@media(max-width:600px){.modal-panel{padding:30px 22px}}
+.modal-x{
+  position:absolute;top:20px;right:20px;width:36px;height:36px;background:none;border:1px solid var(--border-strong);
+  color:var(--text);cursor:pointer;font-size:14px;transition:all .25s ease;
+}
+.modal-x:hover{background:var(--accent);border-color:var(--accent);color:var(--void)}
+.modal-panel h3{font-size:clamp(22px,3vw,30px);margin-top:14px;max-width:20ch}
+.modal-sub{color:var(--text-dim);font-size:14.5px;margin-top:12px;margin-bottom:32px}
+
+.form-section{margin-top:8px;margin-bottom:30px}
+.form-section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.form-section-head span{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+.form-clear{background:none;border:none;color:var(--text-dim);font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.form-clear:hover{color:var(--text)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:520px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.field > span{font-size:13px;color:var(--text-dim)}
+.field > span i{font-style:normal;color:var(--text-dim);opacity:.7}
+.field input, .field textarea{
+  background:var(--void);border:1px solid var(--border-strong);color:var(--text);
+  padding:12px 14px;font-size:14.5px;font-family:'Manrope',sans-serif;resize:vertical;
+}
+.field input:focus, .field textarea:focus{outline:none;border-color:var(--accent)}
+.chip-select{display:flex;gap:8px;flex-wrap:wrap}
+.form-error{color:var(--accent);font-size:13px;margin-bottom:18px}
+.modal-submit{width:100%;justify-content:center;margin-top:10px}
+
+.modal-sent h3{margin-top:14px}
+.modal-sent p{color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-top:14px;max-width:48ch}
+.modal-sent p b{color:var(--text)}
+.modal-sent-actions{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
+
 footer{padding:36px 0}
 .foot-row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--text-dim)}
 .foot-row a{color:var(--text-dim);transition:color .2s ease}
@@ -436,6 +483,16 @@ function Logo(){
   );
 }
 
+function openProjectModal(){
+  window.dispatchEvent(new Event('xs-open-project'));
+}
+
+function StartProjectButton({className, children}){
+  return (
+    <button type="button" className={className} onClick={openProjectModal}>{children}</button>
+  );
+}
+
 function Nav(){
   return (
     <nav className="nav">
@@ -444,7 +501,7 @@ function Nav(){
         <a href="#practice">Practice</a>
         <a href="#work">Work</a>
         <a href="#process">Process</a>
-        <a href="#contact" className="pill">Start a project</a>
+        <StartProjectButton className="pill">Start a project</StartProjectButton>
       </div>
     </nav>
   );
@@ -597,7 +654,7 @@ function DemoCard(){
                   {d.services.map(s=>(<span key={s} className="ds-chip">{s}</span>))}
                 </div>
                 <div className="demo-endrow">
-                  <a className="pill" href="#contact">Start a project like this {ARROW}</a>
+                  <StartProjectButton className="pill">Start a project like this {ARROW}</StartProjectButton>
                   <button className="demo-replay" onClick={playIntro}>Replay ↺</button>
                 </div>
               </div>
@@ -695,7 +752,7 @@ function Hero(){
       </div>
 
       <div className="hero-cta-row">
-        <a className="pill" href="#contact">Start a project {ARROW}</a>
+        <StartProjectButton className="pill">Start a project {ARROW}</StartProjectButton>
         <a className="pill-outline" href="#process">See how we work</a>
       </div>
 
@@ -704,11 +761,11 @@ function Hero(){
           <p>No generic UI kits. No 80-slide strategy decks. Just interfaces and systems that hold up once real users touch them.</p>
           <div className="cr">© {new Date().getFullYear()} Xperience Studios LLC</div>
         </div>
-        <a className="hero-card" href="#contact">
+        <button type="button" className="hero-card" onClick={openProjectModal}>
           <span className="av">XS</span>
           <span className="cp"><b>Currently booking</b><span>Q1 project slots — reply within 1 day</span></span>
           <span className="go">{ARROW}</span>
-        </a>
+        </button>
       </div>
     </section>
   );
@@ -977,6 +1034,163 @@ function Process(){
   );
 }
 
+const BUDGETS = ["Under $10K","$10K – $25K","$25K – $50K","$50K+"];
+const MODAL_TIMELINES = ["ASAP","Next month","This quarter","Just exploring"];
+
+function ProjectModal(){
+  const empty = {first:'', last:'', email:'', phone:'', project:'', links:'', budget:null, timeline:null};
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState(empty);
+  const [touched, setTouched] = useState(false);
+  const [sentState, setSentState] = useState(null); // null | 'sent'
+  const firstFieldRef = useRef(null);
+
+  useEffect(()=>{
+    function onOpen(){ setOpen(true); setSentState(null); }
+    window.addEventListener('xs-open-project', onOpen);
+    return ()=>window.removeEventListener('xs-open-project', onOpen);
+  },[]);
+
+  useEffect(()=>{
+    if(open){
+      document.body.style.overflow = 'hidden';
+      setTimeout(()=>{ if(firstFieldRef.current) firstFieldRef.current.focus(); }, 60);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return ()=>{ document.body.style.overflow = ''; };
+  },[open]);
+
+  useEffect(()=>{
+    function onKey(e){ if(e.key === 'Escape') close(); }
+    if(open) window.addEventListener('keydown', onKey);
+    return ()=>window.removeEventListener('keydown', onKey);
+  },[open]);
+
+  function close(){ setOpen(false); }
+  function set(k,v){ setForm(f=>({...f, [k]:v})); }
+  function clearForm(){ setForm(empty); setTouched(false); }
+
+  const valid = form.first.trim() && form.last.trim() && /\S+@\S+\.\S+/.test(form.email) && form.project.trim() && form.budget;
+
+  function buildBrief(){
+    return [
+      `New project brief from ${form.first} ${form.last}`,
+      ``,
+      `Name: ${form.first} ${form.last}`,
+      `Email: ${form.email}`,
+      form.phone ? `Phone: ${form.phone}` : null,
+      `Budget: ${form.budget}`,
+      form.timeline ? `Timeline: ${form.timeline}` : null,
+      ``,
+      `Project:`,
+      form.project,
+      form.links ? `\nLinks:\n${form.links}` : null,
+    ].filter(Boolean).join('\n');
+  }
+
+  function submit(e){
+    e.preventDefault();
+    setTouched(true);
+    if(!valid) return;
+    const brief = buildBrief();
+    const subject = `Project brief — ${form.first} ${form.last}`;
+    window.location.href = `mailto:bharath@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(brief)}`;
+    setSentState('sent');
+  }
+
+  function copyBrief(){
+    navigator.clipboard && navigator.clipboard.writeText(buildBrief());
+  }
+
+  return (
+    <div className={"modal-overlay"+(open?" open":"")} onMouseDown={(e)=>{ if(e.target===e.currentTarget) close(); }}>
+      <div className="modal-panel" role="dialog" aria-modal="true" aria-label="Start a project">
+        <button type="button" className="modal-x" onClick={close} aria-label="Close">✕</button>
+
+        {sentState==='sent' ? (
+          <div className="modal-sent">
+            <span className="kicker">Brief sent</span>
+            <h3>Your email client should be open now.</h3>
+            <p>If nothing happened — some browsers block it without a default mail app set — copy the brief below and send it to <b>bharath@xperiencestudios.com</b> directly.</p>
+            <div className="modal-sent-actions">
+              <button type="button" className="pill" onClick={copyBrief}>Copy brief</button>
+              <button type="button" className="pill-outline" onClick={()=>{ clearForm(); setSentState(null); }}>Start another</button>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={submit} noValidate>
+            <span className="kicker">Start a project</span>
+            <h3>Let's translate the brief into a plan.</h3>
+            <p className="modal-sub">Fill this in — we read every one ourselves, no forms team in between.</p>
+
+            <div className="form-section">
+              <div className="form-section-head">
+                <span>Personal information</span>
+                <button type="button" className="form-clear" onClick={clearForm}>Clear</button>
+              </div>
+              <div className="form-grid">
+                <label className="field">
+                  <span>First name*</span>
+                  <input ref={firstFieldRef} value={form.first} onChange={e=>set('first', e.target.value)} required/>
+                </label>
+                <label className="field">
+                  <span>Last name*</span>
+                  <input value={form.last} onChange={e=>set('last', e.target.value)} required/>
+                </label>
+                <label className="field">
+                  <span>Email*</span>
+                  <input type="email" value={form.email} onChange={e=>set('email', e.target.value)} required/>
+                </label>
+                <label className="field">
+                  <span>Phone <i>(optional)</i></span>
+                  <input type="tel" value={form.phone} onChange={e=>set('phone', e.target.value)}/>
+                </label>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <div className="form-section-head"><span>Project details</span></div>
+              <label className="field">
+                <span>Tell us what's going on*</span>
+                <textarea rows="4" value={form.project} onChange={e=>set('project', e.target.value)}
+                  placeholder="What you're building, what's broken, or what you're trying to figure out." required/>
+              </label>
+              <label className="field">
+                <span>Links to share <i>(optional)</i></span>
+                <input value={form.links} onChange={e=>set('links', e.target.value)} placeholder="Figma, live site, deck…"/>
+              </label>
+
+              <div className="field">
+                <span>Budget*</span>
+                <div className="chip-select">
+                  {BUDGETS.map(b=>(
+                    <button type="button" key={b} className={"demo-chip"+(form.budget===b?" active":"")} onClick={()=>set('budget', b)}>{b}</button>
+                  ))}
+                </div>
+              </div>
+              <div className="field">
+                <span>Timeline <i>(optional)</i></span>
+                <div className="chip-select">
+                  {MODAL_TIMELINES.map(t=>(
+                    <button type="button" key={t} className={"demo-chip"+(form.timeline===t?" active":"")} onClick={()=>set('timeline', t)}>{t}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {touched && !valid && (
+              <p className="form-error">First name, last name, a valid email, project details, and budget are required.</p>
+            )}
+
+            <button type="submit" className="pill modal-submit">Send project brief {ARROW}</button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const PROJECT_TYPES = ["New product","Redesign","Design system","Audit"];
 const TIMELINES = ["ASAP","Next month","This quarter","Just exploring"];
 
@@ -1083,6 +1297,7 @@ function App(){
         <Process/>
         <Contact/>
       </main>
+      <ProjectModal/>
     </React.Fragment>
   );
 }
