@@ -104,6 +104,22 @@ function StartProjectButton({className, children}){
 }
 
 function Nav(){
+  const [open, setOpen] = useState(false);
+
+  useEffect(()=>{
+    document.body.style.overflow = open ? 'hidden' : '';
+    return ()=>{ document.body.style.overflow = ''; };
+  }, [open]);
+
+  useEffect(()=>{
+    function onKey(e){ if(e.key === 'Escape') setOpen(false); }
+    window.addEventListener('keydown', onKey);
+    return ()=>window.removeEventListener('keydown', onKey);
+  }, []);
+
+  function go(){ setOpen(false); }
+  function goAndOpenProject(){ setOpen(false); openProjectModal(); }
+
   return (
     <nav className="nav">
       <Logo/>
@@ -113,6 +129,22 @@ function Nav(){
         <a href="about.html">About</a>
         <a href="insights.html">Insights</a>
         <StartProjectButton className="pill">Start a project</StartProjectButton>
+      </div>
+      <button
+        type="button"
+        className={"nav-burger"+(open?" open":"")}
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+        onClick={()=>setOpen(o=>!o)}
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <div className={"nav-mobile"+(open?" open":"")} aria-hidden={!open}>
+        <a href="services.html" onClick={go}>Services</a>
+        <a href="index.html#work" onClick={go}>Work</a>
+        <a href="about.html" onClick={go}>About</a>
+        <a href="insights.html" onClick={go}>Insights</a>
+        <button type="button" className="pill" onClick={goAndOpenProject}>Start a project</button>
       </div>
     </nav>
   );
