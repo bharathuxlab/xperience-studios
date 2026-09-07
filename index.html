@@ -80,7 +80,15 @@ section{padding:130px 0;scroll-margin-top:90px}
   position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
   padding:150px 28px 40px;overflow:hidden;isolation:isolate;
 }
-#smoke{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block;background:#050506}
+#hero-video{
+  position:absolute;inset:0;width:100%;height:100%;z-index:-3;display:block;background:#050506;
+  object-fit:cover;filter:grayscale(0.85) contrast(1.15) brightness(0.68) saturate(1.1);
+}
+.hero-grade{
+  position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:linear-gradient(135deg, rgba(245,184,65,0.45), rgba(154,164,178,0.12) 60%, rgba(245,184,65,0.3));
+  mix-blend-mode:overlay;
+}
 .hero-vignette{
   position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
@@ -666,71 +674,35 @@ function DemoCard(){
   );
 }
 
-function SmokeCanvas(){
+function HeroVideo(){
   const ref = useRef(null);
   useEffect(()=>{
-    const canvas = ref.current;
-    const ctx = canvas.getContext('2d');
-    let w,h,dpr,raf;
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio||1, 2);
-      w = canvas.clientWidth; h = canvas.clientHeight;
-      canvas.width = w*dpr; canvas.height = h*dpr;
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    const puffs = Array.from({length:9}).map((_,i)=>({
-      x: 0.5 + (Math.random()-0.5)*0.5,
-      y: 1.05 + Math.random()*0.3,
-      r: 0.28 + Math.random()*0.3,
-      speed: 0.00018 + Math.random()*0.00022,
-      sway: Math.random()*Math.PI*2,
-      swaySpeed: 0.0003 + Math.random()*0.0004,
-      shade: 40 + Math.random()*90,
-      squash: 1.4 + Math.random()*0.8,
-    }));
-
-    let t=0;
-    function draw(){
-      t += 16;
-      ctx.fillStyle = '#050506';
-      ctx.fillRect(0,0,w,h);
-      ctx.globalCompositeOperation = 'lighten';
-      puffs.forEach(p=>{
-        let py = p.y - (t*p.speed)%1.5;
-        if(py < -0.35){ py += 1.5; }
-        const px = p.x + Math.sin(t*p.swaySpeed + p.sway)*0.08;
-        const cx = px*w, cy = py*h;
-        const r = p.r*Math.max(w,h);
-        const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,r);
-        const c = `rgb(${p.shade},${p.shade},${p.shade})`;
-        grad.addColorStop(0, c);
-        grad.addColorStop(1, 'rgba(5,5,6,0)');
-        ctx.fillStyle = grad;
-        ctx.save();
-        ctx.translate(cx,cy);
-        ctx.scale(1, 1/p.squash);
-        ctx.translate(-cx,-cy);
-        ctx.beginPath();
-        ctx.arc(cx,cy,r,0,Math.PI*2);
-        ctx.fill();
-        ctx.restore();
-      });
-      ctx.globalCompositeOperation = 'source-over';
-      raf = requestAnimationFrame(draw);
-    }
-    if(prefersReduced){ draw(); cancelAnimationFrame(raf); } else { draw(); }
-    return ()=>{ window.removeEventListener('resize', resize); if(raf) cancelAnimationFrame(raf); };
+    const v = ref.current;
+    if(!v || prefersReduced) return;
+    const p = v.play();
+    if(p && p.catch) p.catch(()=>{});
   },[]);
-  return <canvas id="smoke" className="parallax-slow" ref={ref}></canvas>;
+  return (
+    <video
+      id="hero-video"
+      className="parallax-slow"
+      ref={ref}
+      src="assets/hero-reel.mp4"
+      poster="assets/hero-poster.jpg"
+      autoPlay={!prefersReduced}
+      muted
+      loop
+      playsInline
+      preload="auto"
+    />
+  );
 }
 
 function Hero(){
   return (
     <section className="hero" id="hero">
-      <SmokeCanvas/>
+      <HeroVideo/>
+      <div className="hero-grade"></div>
       <div className="hero-vignette"></div>
       <div className="hero-plus">
         <span style={{top:'28%',left:'8%'}}>+</span>
