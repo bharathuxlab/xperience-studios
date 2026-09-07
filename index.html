@@ -129,19 +129,33 @@ section{padding:130px 0;scroll-margin-top:90px}
 /* ---------- BRAND MARQUEE ---------- */
 .brand-marquee{
   display:flex;align-items:center;gap:28px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  padding:22px 32px;background:var(--surface);
+  padding:34px 32px;background:var(--surface);position:relative;overflow:hidden;
 }
+.brand-marquee::before{
+  content:"";position:absolute;top:0;bottom:0;width:220px;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg, transparent, rgba(245,184,65,0.10) 45%, transparent);
+  animation:bmSweep 7s ease-in-out infinite;
+}
+@keyframes bmSweep{0%{left:-220px}55%{left:-220px}100%{left:110%}}
 .bm-label{
   font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);text-transform:uppercase;
-  letter-spacing:.08em;flex:none;white-space:nowrap;
+  letter-spacing:.08em;flex:none;white-space:nowrap;position:relative;z-index:1;
 }
 .bm-track-wrap{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.bm-track{display:flex;gap:64px;width:max-content;animation:bmScroll 26s linear infinite}
-.bm-track span{
-  font-family:'Sora',sans-serif;font-weight:700;font-size:19px;color:var(--text-dim);white-space:nowrap;
-  letter-spacing:-0.01em;transition:color .25s ease;
+.bm-track{display:flex;gap:72px;width:max-content;animation:bmScroll 26s linear infinite}
+.bm-item{display:inline-flex;align-items:center;gap:14px}
+.bm-badge{
+  flex:none;width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11.5px;color:#fff;letter-spacing:-0.02em;
+  filter:saturate(0.85) brightness(0.92);transition:all .3s ease;
 }
-.bm-track span:hover{color:var(--text)}
+.bm-item:hover .bm-badge{filter:saturate(1) brightness(1);transform:scale(1.08)}
+.bm-name{
+  font-family:'Sora',sans-serif;font-weight:700;font-size:30px;color:var(--text-dim);white-space:nowrap;
+  letter-spacing:-0.02em;transition:color .25s ease;
+}
+.bm-item:hover .bm-name{color:var(--text)}
+@media(max-width:720px){.bm-name{font-size:22px}.bm-badge{width:32px;height:32px;font-size:10px}}
 @keyframes bmScroll{from{transform:translateX(0)}to{transform:translateX(-33.333%)}}
 
 /* ---------- DEMO CARD ---------- */
@@ -1309,7 +1323,12 @@ function Contact(){
   );
 }
 
-const BRANDS = ["UnitedHealth Group","HDFC Bank","Verizon","Backbase"];
+const BRANDS = [
+  {n:"UnitedHealth Group", i:"UHG", c:"#002677"},
+  {n:"HDFC Bank", i:"HDFC", c:"#004C8F"},
+  {n:"Verizon", i:"VZ", c:"#EE0000"},
+  {n:"Backbase", i:"BB", c:"#5B3FE0"},
+];
 function BrandMarquee(){
   const row = [...BRANDS, ...BRANDS, ...BRANDS];
   return (
@@ -1317,7 +1336,12 @@ function BrandMarquee(){
       <span className="bm-label">Shipped for</span>
       <div className="bm-track-wrap">
         <div className="bm-track">
-          {row.map((b,i)=>(<span key={i}>{b}</span>))}
+          {row.map((b,i)=>(
+            <span className="bm-item" key={i}>
+              <span className="bm-badge" style={{background:b.c}}>{b.i}</span>
+              <span className="bm-name">{b.n}</span>
+            </span>
+          ))}
         </div>
       </div>
     </div>
