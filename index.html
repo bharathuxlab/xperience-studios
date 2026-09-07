@@ -78,16 +78,7 @@ section{padding:130px 0;scroll-margin-top:90px}
 /* ---------- HERO ---------- */
 .hero{
   position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
-  padding:150px 28px 40px;overflow:hidden;isolation:isolate;
-}
-#hero-video{
-  position:absolute;inset:0;width:100%;height:100%;z-index:-3;display:block;background:#050506;
-  object-fit:cover;filter:grayscale(0.85) contrast(1.15) brightness(0.68) saturate(1.1);
-}
-.hero-grade{
-  position:absolute;inset:0;z-index:-2;pointer-events:none;
-  background:linear-gradient(135deg, rgba(245,184,65,0.45), rgba(154,164,178,0.12) 60%, rgba(245,184,65,0.3));
-  mix-blend-mode:overlay;
+  padding:150px 28px 40px;overflow:hidden;isolation:isolate;background:#050506;
 }
 .hero-vignette{
   position:absolute;inset:0;z-index:-1;pointer-events:none;
@@ -130,24 +121,6 @@ section{padding:130px 0;scroll-margin-top:90px}
 .hero-stmt{max-width:38ch}
 .hero-stmt p{font-size:15.5px;color:var(--text-dim);line-height:1.6}
 .hero-stmt .cr{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(245,245,247,0.4)}
-
-.hero-card{
-  background:var(--text);color:var(--void);border-radius:0;padding:16px 18px;
-  display:flex;align-items:center;gap:14px;min-width:270px;
-  border:none;cursor:pointer;text-align:left;font:inherit;
-}
-.hero-card .av{
-  width:46px;height:46px;border-radius:50%;background:var(--void);color:var(--text);flex:none;
-  display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;
-}
-.hero-card .cp{flex:1}
-.hero-card .cp b{display:block;font-size:14.5px;font-weight:700}
-.hero-card .cp span{font-size:12px;color:#55555c}
-.hero-card .go{
-  width:36px;height:36px;border-radius:50%;background:var(--void);color:var(--text);flex:none;
-  display:flex;align-items:center;justify-content:center;transition:transform .3s cubic-bezier(.16,1,.3,1);
-}
-.hero-card:hover .go{transform:rotate(45deg)}
 
 .hero-cta-row{position:relative;z-index:1;display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;
   opacity:0;animation:rise .9s cubic-bezier(.16,1,.3,1) .5s forwards;
@@ -674,35 +647,9 @@ function DemoCard(){
   );
 }
 
-function HeroVideo(){
-  const ref = useRef(null);
-  useEffect(()=>{
-    const v = ref.current;
-    if(!v || prefersReduced) return;
-    const p = v.play();
-    if(p && p.catch) p.catch(()=>{});
-  },[]);
-  return (
-    <video
-      id="hero-video"
-      className="parallax-slow"
-      ref={ref}
-      src="assets/hero-reel.mp4"
-      poster="assets/hero-poster.jpg"
-      autoPlay={!prefersReduced}
-      muted
-      loop
-      playsInline
-      preload="auto"
-    />
-  );
-}
-
 function Hero(){
   return (
     <section className="hero" id="hero">
-      <HeroVideo/>
-      <div className="hero-grade"></div>
       <div className="hero-vignette"></div>
       <div className="hero-plus">
         <span style={{top:'28%',left:'8%'}}>+</span>
@@ -733,11 +680,6 @@ function Hero(){
           <p>No generic UI kits. No 80-slide strategy decks. Just interfaces and systems that hold up once real users touch them.</p>
           <div className="cr">© {new Date().getFullYear()} Xperience Studios LLC</div>
         </div>
-        <button type="button" className="hero-card" onClick={openProjectModal}>
-          <span className="av">XS</span>
-          <span className="cp"><b>Currently booking</b><span>Q1 project slots — reply within 1 day</span></span>
-          <span className="go">{ARROW}</span>
-        </button>
       </div>
     </section>
   );
