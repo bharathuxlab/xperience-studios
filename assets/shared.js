@@ -154,7 +154,7 @@ function Footer(){
   return (
     <footer>
       <div className="wrap foot-row">
-        <span>© {new Date().getFullYear()} Xperience Studios LLC</span>
+        <span>© {new Date().getFullYear()} Wrapbox Inc</span>
         <div className="foot-links">
           <a href="index.html#work">Work</a>
           <a href="services.html">Services</a>
