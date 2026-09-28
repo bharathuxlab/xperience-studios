@@ -160,7 +160,7 @@ function Footer(){
           <a href="services.html">Services</a>
           <a href="about.html">About</a>
           <a href="insights.html">Insights</a>
-          <a href="mailto:bharath@xperiencestudios.com">Contact</a>
+          <a href="mailto:bharath_kumar@wrapbox.io">Contact</a>
         </div>
       </div>
     </footer>
@@ -228,7 +228,7 @@ function ProjectModal(){
     if(!valid) return;
     const brief = buildBrief();
     const subject = `Project brief — ${form.first} ${form.last}`;
-    window.location.href = `mailto:bharath@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(brief)}`;
+    window.location.href = `mailto:bharath_kumar@wrapbox.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(brief)}`;
     setSentState('sent');
   }
 
@@ -245,7 +245,7 @@ function ProjectModal(){
           <div className="modal-sent">
             <span className="kicker">Brief sent</span>
             <h3>Your email client should be open now.</h3>
-            <p>If nothing happened — some browsers block it without a default mail app set — copy the brief below and send it to <b>bharath@xperiencestudios.com</b> directly.</p>
+            <p>If nothing happened — some browsers block it without a default mail app set — copy the brief below and send it to <b>bharath_kumar@wrapbox.io</b> directly.</p>
             <div className="modal-sent-actions">
               <button type="button" className="pill" onClick={copyBrief}>Copy brief</button>
               <button type="button" className="pill-outline" onClick={()=>{ clearForm(); setSentState(null); }}>Start another</button>
