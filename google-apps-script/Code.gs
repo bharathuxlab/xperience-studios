@@ -4,7 +4,7 @@
  * then Deploy → New deployment → Web app (Execute as: Me, Access: Anyone).
  * Each submission: appends a row to the sheet + emails NOTIFY_EMAIL.
  */
-const NOTIFY_EMAIL = 'hello@xperiencestudios.com';
+const NOTIFY_EMAIL = 'hello@xperiencestudios.com,bharathuxdesigner@gmail.com';
 const HEADERS = ['Received', 'First name', 'Last name', 'Email', 'Phone', 'Budget', 'Timeline', 'Project', 'Links', 'Page'];
 
 function doPost(e) {
