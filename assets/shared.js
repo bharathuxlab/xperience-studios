@@ -174,7 +174,7 @@ function Footer(){
 }
 
 // Google Apps Script web-app URL (see google-apps-script/Code.gs). Empty = fall back to mailto.
-const FORM_ENDPOINT = '';
+const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzUiUvqvBZNpkL1BW2_Yys3ab-AGf_zMAloNRJhJ9ePp71ROV8TdZnw9B53l25gH14k/exec';
 
 const BUDGETS = ["Under $10K","$10K – $25K","$25K – $50K","$50K+"];
 const MODAL_TIMELINES = ["ASAP","Next month","This quarter","Just exploring"];
