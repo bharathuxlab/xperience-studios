@@ -154,14 +154,20 @@ function Footer(){
   return (
     <footer>
       <div className="wrap foot-row">
-        <span>© {new Date().getFullYear()} Wrapbox Inc</span>
+        <span>© {new Date().getFullYear()} Everyday Works LLC</span>
         <div className="foot-links">
           <a href="index.html#work">Work</a>
           <a href="services.html">Services</a>
           <a href="about.html">About</a>
           <a href="insights.html">Insights</a>
-          <a href="mailto:bharath_kumar@wrapbox.io">Contact</a>
+          <a href="mailto:hello@xperiencestudios.com">Contact</a>
         </div>
+      </div>
+      <div className="wrap foot-legal">
+        <span>Everyday Works LLC</span>
+        <span>30 N Gould St Ste N, Sheridan, Wyoming 82801, United States</span>
+        <a href="tel:+919618309350">+91 96183 09350</a>
+        <a href="mailto:hello@xperiencestudios.com">hello@xperiencestudios.com</a>
       </div>
     </footer>
   );
@@ -228,7 +234,7 @@ function ProjectModal(){
     if(!valid) return;
     const brief = buildBrief();
     const subject = `Project brief — ${form.first} ${form.last}`;
-    window.location.href = `mailto:bharath_kumar@wrapbox.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(brief)}`;
+    window.location.href = `mailto:hello@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(brief)}`;
     setSentState('sent');
   }
 
@@ -245,7 +251,7 @@ function ProjectModal(){
           <div className="modal-sent">
             <span className="kicker">Brief sent</span>
             <h3>Your email client should be open now.</h3>
-            <p>If nothing happened — some browsers block it without a default mail app set — copy the brief below and send it to <b>bharath_kumar@wrapbox.io</b> directly.</p>
+            <p>If nothing happened — some browsers block it without a default mail app set — copy the brief below and send it to <b>hello@xperiencestudios.com</b> directly.</p>
             <div className="modal-sent-actions">
               <button type="button" className="pill" onClick={copyBrief}>Copy brief</button>
               <button type="button" className="pill-outline" onClick={()=>{ clearForm(); setSentState(null); }}>Start another</button>

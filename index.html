@@ -263,7 +263,7 @@ function Hero(){
       </div>
 
       <div className="hero-foot">
-        <div className="cr">© {new Date().getFullYear()} Wrapbox Inc</div>
+        <div className="cr">© {new Date().getFullYear()} Everyday Works LLC</div>
       </div>
     </section>
   );
@@ -628,8 +628,8 @@ function Contact(){
   const subject = ready ? `${type} — ${timeline}` : '';
   const body = ready ? `Hi Xperience Studios,\n\nWe're looking at a ${type.toLowerCase()} project, timeline: ${timeline.toLowerCase()}.\n\nHere's what's going on:\n` : '';
   const href = ready
-    ? `mailto:bharath_kumar@wrapbox.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    : 'mailto:bharath_kumar@wrapbox.io';
+    ? `mailto:hello@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    : 'mailto:hello@xperiencestudios.com';
 
   return (
     <section id="contact">
@@ -660,7 +660,7 @@ function Contact(){
 
           <div className="contact-actions">
             <a className={"pill"+(ready?" ready":"")} href={href}>
-              {ready ? `Send: ${subject}` : 'bharath_kumar@wrapbox.io'} {ARROW}
+              {ready ? `Send: ${subject}` : 'hello@xperiencestudios.com'} {ARROW}
             </a>
           </div>
         </div>
