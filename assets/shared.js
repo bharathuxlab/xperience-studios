@@ -173,15 +173,18 @@ function Footer(){
   );
 }
 
+// Google Apps Script web-app URL (see google-apps-script/Code.gs). Empty = fall back to mailto.
+const FORM_ENDPOINT = '';
+
 const BUDGETS = ["Under $10K","$10K – $25K","$25K – $50K","$50K+"];
 const MODAL_TIMELINES = ["ASAP","Next month","This quarter","Just exploring"];
 
 function ProjectModal(){
-  const empty = {first:'', last:'', email:'', phone:'', project:'', links:'', budget:null, timeline:null};
+  const empty = {first:'', last:'', email:'', phone:'', project:'', links:'', budget:null, timeline:null, website:''};
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(empty);
   const [touched, setTouched] = useState(false);
-  const [sentState, setSentState] = useState(null); // null | 'sent'
+  const [sentState, setSentState] = useState(null); // null | 'sending' | 'received' | 'sent'
   const firstFieldRef = useRef(null);
 
   useEffect(()=>{
@@ -228,14 +231,31 @@ function ProjectModal(){
     ].filter(Boolean).join('\n');
   }
 
-  function submit(e){
+  function openMail(){
+    const subject = `Project brief — ${form.first} ${form.last}`;
+    window.location.href = `mailto:hello@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildBrief())}`;
+    setSentState('sent');
+  }
+
+  async function submit(e){
     e.preventDefault();
     setTouched(true);
-    if(!valid) return;
-    const brief = buildBrief();
-    const subject = `Project brief — ${form.first} ${form.last}`;
-    window.location.href = `mailto:hello@xperiencestudios.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(brief)}`;
-    setSentState('sent');
+    if(!valid || sentState==='sending') return;
+    if(!FORM_ENDPOINT){ openMail(); return; }
+    setSentState('sending');
+    try{
+      // text/plain keeps this a "simple" request, so the browser skips the CORS preflight Apps Script can't answer.
+      const res = await fetch(FORM_ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify({...form, page: window.location.href}),
+      });
+      const out = await res.json();
+      if(!out.ok) throw new Error(out.error || 'not_ok');
+      setSentState('received');
+    }catch(err){
+      openMail(); // network/script failure: don't lose the brief
+    }
   }
 
   function copyBrief(){
@@ -247,7 +267,17 @@ function ProjectModal(){
       <div className="modal-panel" role="dialog" aria-modal="true" aria-label="Start a project">
         <button type="button" className="modal-x" onClick={close} aria-label="Close">✕</button>
 
-        {sentState==='sent' ? (
+        {sentState==='received' ? (
+          <div className="modal-sent">
+            <span className="kicker">Brief received</span>
+            <h3>Thanks, {form.first} — it's with us.</h3>
+            <p>We read every brief ourselves and will reply to <b>{form.email}</b>.</p>
+            <div className="modal-sent-actions">
+              <button type="button" className="pill" onClick={close}>Done</button>
+              <button type="button" className="pill-outline" onClick={()=>{ clearForm(); setSentState(null); }}>Send another</button>
+            </div>
+          </div>
+        ) : sentState==='sent' ? (
           <div className="modal-sent">
             <span className="kicker">Brief sent</span>
             <h3>Your email client should be open now.</h3>
@@ -322,7 +352,12 @@ function ProjectModal(){
               <p className="form-error">First name, last name, a valid email, project details, and budget are required.</p>
             )}
 
-            <button type="submit" className="pill modal-submit">Send project brief {ARROW}</button>
+            <input className="hp-field" tabIndex="-1" autoComplete="off" aria-hidden="true"
+              value={form.website} onChange={e=>set('website', e.target.value)}/>
+
+            <button type="submit" className="pill modal-submit" disabled={sentState==='sending'}>
+              {sentState==='sending' ? 'Sending…' : <>Send project brief {ARROW}</>}
+            </button>
           </form>
         )}
       </div>
